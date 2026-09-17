@@ -88,7 +88,15 @@ A distinção entre os três desfechos (comparece, cancela com antecedência, fa
 
 A estimação individualizada da probabilidade de comparecimento ($p_i$) é gerada por um pipeline treinado no **Azure Machine Learning** e implantado como endpoint REST via **Azure Container Instance (ACI)**.
 
-> Documentação técnica completa com formulações matemáticas, análise linha a linha de código e gráficos em: [`docs/pipeline-ia-completo.md`](docs/pipeline-ia-completo.md).
+> 📄 **Resumo Executivo em PDF (pronto para impressão):** [`docs/Resumo_Pipeline_IA_Azure_ML.pdf`](docs/Resumo_Pipeline_IA_Azure_ML.pdf)  
+> 📘 **Guia Didático do Pipeline:** [`docs/explicacao-pipeline-ia.md`](docs/explicacao-pipeline-ia.md)  
+> 🔬 **Especificação Técnica Completa (Código & Métricas):** [`docs/pipeline-ia-completo.md`](docs/pipeline-ia-completo.md)
+
+<div align="center">
+  <img src="diagrams/fluxograma_pipeline_ia.png" alt="Fluxograma Pipeline IA Azure ML" width="95%"/>
+</div>
+
+<br/>
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -432,15 +440,17 @@ vitta-care-trl-evidencias/
 ├── CHANGELOG.md                       # Histórico de evolução tecnológica
 │
 ├── docs/
-│   ├── Resumo_Monte_Carlo_Copula_Gaussiana.pdf # Resumo executivo em PDF
-│   ├── explicacao-monte-carlo-copula.md        # Guia didático do motor
-│   ├── pipeline-ia-completo.md        # Pipeline de IA (Azure ML, métricas, SHAP)
-│   ├── arquitetura.md                 # Componentes, camadas e integrações
-│   ├── modelo-preditivo.md            # Formulação MC, Markov e calibração
-│   ├── pipeline-dados.md              # ETL, feature engineering e PHI Guard
-│   ├── integracoes.md                 # Matriz de integrações homologadas
-│   ├── testes-validacao.md            # Protocolos e resultados de validação
-│   └── evolucao-tecnologica.md        # Diagnóstico de TRL e metas ELDORADO
+│   ├── Resumo_Pipeline_IA_Azure_ML.pdf        # Resumo executivo de IA em PDF
+│   ├── explicacao-pipeline-ia.md              # Guia didático do pipeline de IA
+│   ├── Resumo_Monte_Carlo_Copula_Gaussiana.pdf # Resumo executivo Monte Carlo em PDF
+│   ├── explicacao-monte-carlo-copula.md        # Guia didático do motor estocástico
+│   ├── pipeline-ia-completo.md                # Especificação técnica (código Azure ML)
+│   ├── arquitetura.md                         # Componentes, camadas e integrações
+│   ├── modelo-preditivo.md                    # Formulação MC, Markov e calibração
+│   ├── pipeline-dados.md                      # ETL, feature engineering e PHI Guard
+│   ├── integracoes.md                         # Matriz de integrações homologadas
+│   ├── testes-validacao.md                    # Protocolos e resultados de validação
+│   └── evolucao-tecnologica.md                # Diagnóstico de TRL e metas ELDORADO
 │
 ├── evidencias/
 │   ├── dashboards/                    # Home, projeção 12m, monitor, health score
@@ -453,6 +463,7 @@ vitta-care-trl-evidencias/
 │   └── exemplo_resultado.json         # Resposta do motor preditivo
 │
 └── diagrams/                          # Logo, fluxos e diagramas conceituais
+    ├── fluxograma_pipeline_ia.png     # Fluxograma do pipeline de IA
     ├── fluxograma_monte_carlo.png     # Fluxograma do motor estocástico
     └── ...
 ```

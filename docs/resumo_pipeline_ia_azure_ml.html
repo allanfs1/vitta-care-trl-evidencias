@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pipeline de Inteligência Artificial: Treinamento e Inferência (Azure ML) - Vitta Care</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 14mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.4;
+  }
+  .page {
+    width: 100%;
+    height: 275mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 2px solid #7c3aed;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .brand-title {
+    font-size: 17pt;
+    font-weight: 800;
+    color: #6d28d9;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .brand-sub {
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 3px;
+  }
+  .doc-tag {
+    font-size: 8pt;
+    color: #6d28d9;
+    font-weight: 700;
+    background: #ede9fe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 14pt;
+    color: #0f172a;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .subtitle {
+    font-size: 8.5pt;
+    color: #475569;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  h2 {
+    font-size: 10.5pt;
+    color: #6d28d9;
+    font-weight: 700;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    border-left: 3px solid #7c3aed;
+    padding-left: 6px;
+  }
+
+  p {
+    margin-bottom: 6px;
+    text-align: justify;
+    font-size: 9pt;
+  }
+
+  /* Cards */
+  .card-highlight {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+  }
+  .card-purple {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-left: 3px solid #7c3aed;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+  .card-dark {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .formula-text {
+    font-family: 'Courier New', monospace;
+    font-size: 11.5pt;
+    color: #38bdf8;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .formula-legend {
+    font-size: 7.5pt;
+    color: #cbd5e1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  /* Two column grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .col-box {
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 8pt;
+    line-height: 1.35;
+  }
+  .col-warn {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+  }
+  .col-warn h4 { color: #b45309; font-size: 8.5pt; margin-bottom: 3px; }
+  .col-safe {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .col-safe h4 { color: #15803d; font-size: 8.5pt; margin-bottom: 3px; }
+
+  /* Diagram image container */
+  .diagram-container {
+    text-align: center;
+    margin: 6px 0;
+  }
+  .diagram-img {
+    width: 100%;
+    max-height: 108mm;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Comparison Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 8px;
+    text-align: left;
+  }
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+    font-size: 7.5pt;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Azure Machine Learning · MLOps & Arquitetura Preditiva</div>
+      </div>
+      <div class="doc-tag">PIPELINE DE IA · TREINAMENTO E INFERÊNCIA</div>
+    </div>
+
+    <h1>Pipeline de Inteligência Artificial: Treinamento e Inferência no Azure ML</h1>
+    <div class="subtitle">
+      Resumo executivo da arquitetura de Machine Learning para predição individualizada de absenteísmo, balanceamento via SMOTE sem data leakage e deploy REST.
+    </div>
+
+    <h2>1. O Desafio Clínico: Por que Estimar Probabilidade Contínua?</h2>
+    <p>
+      Classificadores binários tradicionais (que devolvem apenas 0 ou 1) são insuficientes na saúde. Um paciente com <b>48% de chance de falta</b> precisa de confirmação reforçada via WhatsApp, enquanto um com <b>85%</b> justifica a abertura de overbooking no horário. O pipeline da Vitta Care extrai a <b>probabilidade marginal contínua <i>p<sub>i</sub></i></b> através de <code>predict_proba()[:, 1]</code>.
+    </p>
+
+    <div class="grid-2">
+      <div class="col-box col-warn">
+        <h4>⚠️ Armadilha da Acurácia</h4>
+        Como 80% a 85% dos pacientes comparecem, um modelo ingênuo que sempre preveja "comparecimento" já teria 85% de acurácia, mas detectaria zero faltas. Por isso, a métrica de torneio é estritamente a <b>ROC-AUC</b>.
+      </div>
+      <div class="col-box col-safe">
+        <h4>🔒 SMOTE sem Data Leakage</h4>
+        O SMOTE é executado dentro do <code>imblearn.pipeline.Pipeline</code> em cada uma das 5 dobras da validação cruzada. Amostras sintéticas nunca poluem o conjunto de teste/validação.
+      </div>
+    </div>
+
+    <h2>2. Engenharia de Atributos & Pré-Processamento Hermético</h2>
+    <p>
+      O modelo processa <b>18 variáveis</b> agregadas em três categorias pelo <code>ColumnTransformer</code> do scikit-learn:
+    </p>
+    <div class="card-purple">
+      • <b>5 Variáveis Numéricas Contínuas:</b> <code>dias_antecedencia</code>, <code>distancia_km</code>, <code>renda_media_bairro</code>, <code>numero_consultas_ult_30d</code>, <code>taxa_historica</code>. Tratadas com <code>SimpleImputer(strategy='median')</code> e <code>StandardScaler</code>.<br>
+      • <b>4 Variáveis Binárias:</b> <code>lembrete_enviado</code>, <code>feriado_proximo</code>, <code>is_weekend</code>, <code>lembrete_hist</code>. Tratadas com <code>SimpleImputer(strategy='most_frequent')</code>.<br>
+      • <b>9 Dummies Categóricas:</b> Faixas discretizadas de distância (perto/médio/longe), faixas de renda e turnos (Manhã/Tarde).<br>
+      • <b>Seleção ANOVA:</b> <code>SelectKBest(score_func=f_classif, k='all')</code> acoplado no pipeline final.
+    </div>
+
+    <h2>3. Torneio de 4 Modelos sob Validação Cruzada Estratificada</h2>
+    <p>
+      Quatro famílias algorítmicas competem sob o mesmo protocolo estratificado de 5 dobras:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo</th>
+          <th>Tratamento de Desbalanceamento</th>
+          <th>Vantagem Operacional</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>XGBoost Classifier</b></td>
+          <td><code>scale_pos_weight = N_neg / N_pos</code></td>
+          <td>Otimiza gradientes de perda com árvores profundas e regularização L1/L2</td>
+        </tr>
+        <tr>
+          <td><b>Random Forest</b></td>
+          <td><code>class_weight='balanced'</code></td>
+          <td>Bagging de árvores não correlacionadas; alta robustez contra ruído</td>
+        </tr>
+        <tr>
+          <td><b>Gradient Boosting</b></td>
+          <td>SMOTE integrado na dobra</td>
+          <td>Redução sequencial do erro residual via taxa de aprendizado controlada</td>
+        </tr>
+        <tr>
+          <td><b>Regressão Logística</b></td>
+          <td><code>class_weight='balanced'</code>, solver <code>saga</code></td>
+          <td>Benchmark linear rápido com interpretabilidade direta dos coeficientes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. Empacotamento Hermético e Eliminação de Train-Serve Skew</h2>
+    <p>
+      O modelo campeão não é salvo isolado. Ele é serializado no bundle <code>model.pkl</code> junto com o <code>ColumnTransformer</code> ajustado no treino e o threshold ótimo. Na inferência, os dados brutos passam exatamente pelos mesmos parâmetros de média e desvio padrão.
+    </p>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Documentação de Maturidade Tecnológica TRL 5/6</span>
+    <span>Página 1 de 2</span>
+  </div>
+</div>
+
+<!-- PÁGINA 2 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Fluxograma Operacional & Integração com Frontend</div>
+      </div>
+      <div class="doc-tag">ARQUITETURA END-TO-END</div>
+    </div>
+
+    <h2>5. Fluxograma Operacional: Do Treinamento à Decisão de Overbooking</h2>
+    <div class="subtitle" style="margin-bottom: 4px;">
+      Visão completa do ciclo de vida: dados, MLOps no Azure, deploy ACI e consumo estocástico no Flutter:
+    </div>
+
+    <div class="diagram-container">
+      <img class="diagram-img" src="../diagrams/fluxograma_pipeline_ia.png" alt="Fluxograma Pipeline IA Azure ML" />
+    </div>
+
+    <h2>6. Otimização do Limiar de Decisão por Kolmogorov-Smirnov</h2>
+    <p>
+      Em vez do corte arbitrário <code>t = 0.50</code>, o módulo de avaliação calcula o <b>limiar ótimo</b> que maximiza a separação entre as classes reais de falta e presença (Índice de Youden <i>J</i>):
+    </p>
+    <div class="card-dark">
+      <div class="formula-text">t* = argmax [ TPR(t) - FPR(t) ] = argmax [ KS(t) ]</div>
+      <div class="formula-legend">
+        <div><b>TPR (Sensibilidade):</b> Taxa de verdadeiros positivos capturados.</div>
+        <div><b>FPR (1 - Especificidade):</b> Taxa de falsos alarmes tolerados.</div>
+      </div>
+    </div>
+
+    <h2>7. Explicabilidade Clínica com SHAP (XAI)</h2>
+    <p>
+      Para atender às exigências de transparência clínica e ética, o pipeline integra o <b>SHAP</b> (<i>SHapley Additive exPlanations</i>), baseado na teoria dos jogos cooperativos. O <code>TreeExplainer</code> decompõe cada predição em:
+    </p>
+    <div class="card-highlight">
+      <b>f(x) = φ₀ + ∑ φⱼ(x)</b> — onde <b>φ₀</b> é o risco base médio e cada <b>φⱼ</b> é o impacto marginal de uma feature específica (ex: <i>"antecedência de 25 dias somou +18% ao risco; lembrete recebido subtraiu -12%"</i>).
+    </div>
+
+    <h2>8. Consumo no Flutter e Simulação de Monte Carlo</h2>
+    <div class="card-purple">
+      1. <b>Denormalização:</b> O endpoint ACI escreve no Firestore em <code>tb_agendamentos.probabilidade_falta</code>.<br>
+      2. <b>Ingestão Reativa:</b> O <code>AppointmentService</code> no Flutter mapeia o campo para <code>pFaltaPrevista</code>.<br>
+      3. <b>Alimentação da Cópula:</b> As probabilidades individuais alimentam a Cópula Gaussiana em 20.000 iterações.<br>
+      4. <b>Overbooking por Slot:</b> O algoritmo avalia cada médico × hora e autoriza encaixes orientados pelo pior caso.
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Programa ELDORADO de Aceleração em IA</span>
+    <span>Página 2 de 2</span>
+  </div>
+</div>
+
+</body>
+</html>

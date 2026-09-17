@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .pipeline-container {
+    width: 1140px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    padding: 28px 32px;
+    border: 1px solid #e2e8f0;
+  }
+  .title-area {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #ede9fe;
+    color: #6d28d9;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 22px;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  /* Grid of Steps */
+  .steps-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+    position: relative;
+  }
+  .step-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .step-number {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: white;
+    font-weight: 800;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+  }
+  .step-icon {
+    font-size: 18px;
+  }
+  .step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+  }
+  .step-desc {
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+  .step-box {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  /* Card Colors */
+  .card-1 { border-color: #38bdf8; }
+  .card-1 .step-number { background: #0284c7; }
+  .card-1 .step-box { background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; }
+
+  .card-2 { border-color: #a855f7; }
+  .card-2 .step-number { background: #7c3aed; }
+  .card-2 .step-box { background: #faf5ff; border: 1px solid #e9d5ff; color: #6b21a8; }
+
+  .card-3 { border-color: #f59e0b; }
+  .card-3 .step-number { background: #d97706; }
+  .card-3 .step-box { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+
+  .card-4 { border-color: #ec4899; }
+  .card-4 .step-number { background: #db2777; }
+  .card-4 .step-box { background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; }
+
+  .card-5 { border-color: #6366f1; }
+  .card-5 .step-number { background: #4f46e5; }
+  .card-5 .step-box { background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; }
+
+  .card-6 { border-color: #10b981; }
+  .card-6 .step-number { background: #059669; }
+  .card-6 .step-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-weight: 600; }
+
+  .arrow-indicator {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* Bottom Integration Flow */
+  .integration-bar {
+    margin-top: 18px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 10px;
+    padding: 14px 20px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .int-step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .int-icon { font-size: 20px; }
+  .int-title { font-size: 12px; font-weight: 700; color: #38bdf8; margin-bottom: 2px; }
+  .int-desc { font-size: 10.5px; color: #cbd5e1; line-height: 1.3; }
+  .int-arrow { color: #64748b; font-size: 18px; font-weight: bold; }
+
+  /* Key Highlights Row */
+  .highlights-row {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .hl-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .hl-box h4 {
+    font-size: 12px;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hl-box p {
+    font-size: 10.5px;
+    color: #64748b;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="pipeline-container">
+  <div class="title-area">
+    <div class="badge">Azure Machine Learning · MLOps Arquitetura</div>
+    <h1>Pipeline de Inteligência Artificial: Treinamento, Diagnóstico e Inferência</h1>
+    <p class="subtitle">Do dataset histórico à predição de probabilidade consumida pelo Flutter e pelo motor de Monte Carlo</p>
+  </div>
+
+  <div class="steps-row">
+    <!-- Passo 1 -->
+    <div class="step-card card-1">
+      <div class="step-number">1</div>
+      <div class="step-header">
+        <span class="step-icon">📊</span>
+        <div class="step-title">Features & Pré-Processo</div>
+      </div>
+      <div class="step-desc">
+        18 features clínicas e contextuais. <code>ColumnTransformer</code> trata nulos e padroniza variáveis sem vazamento de dados.
+      </div>
+      <div class="step-box">
+        • 5 Numéricas (StandardScaler)<br>
+        • 4 Binárias (Moda)<br>
+        • 9 Dummies (Moda)<br>
+        • SelectKBest (ANOVA F-score)
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 2 -->
+    <div class="step-card card-2">
+      <div class="step-number">2</div>
+      <div class="step-header">
+        <span class="step-icon">⚖️</span>
+        <div class="step-title">SMOTE na Validação (CV)</div>
+      </div>
+      <div class="step-desc">
+        Resolve o desbalanceamento de faltas. O SMOTE roda <b>estritamente dentro</b> de cada fold de treino via <code>ImbPipeline</code>.
+      </div>
+      <div class="step-box">
+        • 5-Fold Stratified CV<br>
+        • Zero Data Leakage<br>
+        • Dobra de teste 100% autêntica<br>
+        • Métrica justa sem inflação
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 3 -->
+    <div class="step-card card-3">
+      <div class="step-number">3</div>
+      <div class="step-header">
+        <span class="step-icon">🏆</span>
+        <div class="step-title">Torneio de 4 Modelos</div>
+      </div>
+      <div class="step-desc">
+        4 algoritmos competem sob a mesma métrica de ranqueamento <b>ROC-AUC</b>. O melhor algoritmo é eleito campeão.
+      </div>
+      <div class="step-box">
+        • <b>XGBoost</b> (scale_pos_weight)<br>
+        • <b>Random Forest</b> (balanced)<br>
+        • <b>Gradient Boosting</b><br>
+        • <b>Logistic Regression</b> (saga)
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 4 -->
+    <div class="step-card card-4">
+      <div class="step-number">4</div>
+      <div class="step-header">
+        <span class="step-icon">🎯</span>
+        <div class="step-title">Threshold Ótimo & SHAP</div>
+      </div>
+      <div class="step-desc">
+        Substitui o corte cego de 0.50 pelo ponto ótimo de <b>Kolmogorov-Smirnov (Youden J)</b> e extrai explicabilidade clínica.
+      </div>
+      <div class="step-box">
+        • t* = argmax [TPR - FPR]<br>
+        • 20+ Métricas (Brier, LogLoss)<br>
+        • 14 Gráficos de diagnóstico<br>
+        • SHAP TreeExplainer (XAI)
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 5 -->
+    <div class="step-card card-5">
+      <div class="step-number">5</div>
+      <div class="step-header">
+        <span class="step-icon">📦</span>
+        <div class="step-title">Artefato Hermético</div>
+      </div>
+      <div class="step-desc">
+        Exporta pacote único <code>model.pkl</code> contendo tudo o que é necessário para inferência, evitando <i>train-serve skew</i>.
+      </div>
+      <div class="step-box">
+        • Pipeline fitted (Scaler+Imputer)<br>
+        • Modelo campeão treinado<br>
+        • Threshold ótimo embutido<br>
+        • Nomes exatos das features
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 6 -->
+    <div class="step-card card-6">
+      <div class="step-number">6</div>
+      <div class="step-header">
+        <span class="step-icon">🚀</span>
+        <div class="step-title">Endpoint REST (ACI)</div>
+      </div>
+      <div class="step-desc">
+        Deploy no Azure Container Instance. Expõe API de baixa latência com autenticação Bearer para predições em tempo real.
+      </div>
+      <div class="step-box">
+        • <code>init()</code> pré-carrega bundle<br>
+        • <code>predict_proba()[:, 1]</code><br>
+        • Retorna P(falta) contínua<br>
+        • Rótulo pelo threshold t*
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Integration Flow -->
+  <div class="integration-bar">
+    <div class="int-step">
+      <span class="int-icon">☁️</span>
+      <div>
+        <div class="int-title">Endpoint REST ACI</div>
+        <div class="int-desc">Recebe JSON com dados do agendamento e retorna probabilidade exata (ex: 32%)</div>
+      </div>
+    </div>
+
+    <div class="int-arrow">➔</div>
+
+    <div class="int-step">
+      <span class="int-icon">🔥</span>
+      <div>
+        <div class="int-title">Firestore (Backend)</div>
+        <div class="int-desc">Denormaliza no documento: <code>tb_agendamentos/{id}.probabilidade_falta</code></div>
+      </div>
+    </div>
+
+    <div class="int-arrow">➔</div>
+
+    <div class="int-step">
+      <span class="int-icon">📱</span>
+      <div>
+        <div class="int-title">Flutter App (Vitta Care)</div>
+        <div class="int-desc"><code>AppointmentService</code> mapeia <code>pFaltaPrevista</code> e classifica <code>RiskLevel</code></div>
+      </div>
+    </div>
+
+    <div class="int-arrow">➔</div>
+
+    <div class="int-step">
+      <span class="int-icon">🎲</span>
+      <div>
+        <div class="int-title">Monte Carlo & Overbooking</div>
+        <div class="int-desc">Alimenta Cópula Gaussiana em 20.000 iterações para decidir encaixe por horário</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Highlights -->
+  <div class="highlights-row">
+    <div class="hl-box">
+      <h4>🔒 Blindagem Metodológica</h4>
+      <p>O pipeline impede contaminação de dados (data leakage) aplicando transformações e SMOTE exclusivamente na dobra de treino de cada rodada.</p>
+    </div>
+    <div class="hl-box">
+      <h4>📈 Métrica de Decisão Clínica</h4>
+      <p>Em vez de acurácia (enganosa em saúde), a escolha do modelo é regida por ROC-AUC e calibrada por Brier Score para probabilidades confiáveis.</p>
+    </div>
+    <div class="hl-box">
+      <h4>💡 Explicabilidade com SHAP</h4>
+      <p>Permite auditar por que um paciente recebeu alto risco (ex: antecedência alta, distância da clínica, ausência de lembrete confirmado).</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
