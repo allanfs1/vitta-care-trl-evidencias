@@ -158,7 +158,16 @@ Isso permite auditar os principais determinantes do absenteísmo (ex: antecedên
 
 O motor de simulação está implementado em [`monte_carlo_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_engine.dart) (~776 linhas de Dart, lógica pura testável sem Flutter).
 
-### 3.1 Modelagem da Dependência
+> 📄 **Resumo Executivo em PDF (pronto para impressão):** [`docs/Resumo_Monte_Carlo_Copula_Gaussiana.pdf`](docs/Resumo_Monte_Carlo_Copula_Gaussiana.pdf)  
+> 📘 **Guia Didático Passo a Passo:** [`docs/explicacao-monte-carlo-copula.md`](docs/explicacao-monte-carlo-copula.md)
+
+<div align="center">
+  <img src="diagrams/fluxograma_monte_carlo.png" alt="Fluxograma Monte Carlo com Cópula Gaussiana" width="95%"/>
+</div>
+
+<br/>
+
+### 4.1 Modelagem da Dependência
 
 Faltas do mesmo dia **não são independentes**. Fatores sistêmicos — chuva forte, greve de transporte, ondas respiratórias, feriado — movem todos os desfechos na mesma direção. Uma Poisson-Binomial pura subestima a variância da contagem de faltas. A solução é uma **cópula gaussiana de um fator**:
 
@@ -176,7 +185,7 @@ $$\text{desfecho}_i = \begin{cases}
 
 Esta formulação preserva **exatamente** as probabilidades marginais de cada consulta enquanto injeta a correlação desejada entre elas.
 
-### 3.2 Caso Degenerado: Poisson-Binomial Exata
+### 4.2 Caso Degenerado: Poisson-Binomial Exata
 
 Quando $\rho = 0$ a simulação é substituída pela **forma fechada da Poisson-Binomial** por convolução dinâmica $O(n^2)$, eliminando qualquer erro de amostragem. Este caminho serve como **oráculo** para os testes do amostrador.
 
@@ -200,13 +209,13 @@ static List<double> poissonBinomialPmf(List<double> ps) {
 }
 ```
 
-### 3.3 Intervenção via Razão de Chances
+### 4.3 Intervenção via Razão de Chances
 
 Reduções de risco são modeladas como **razão de chances** (odds ratio), não como delta aditivo sobre probabilidade. Um delta aditivo $(p - \delta)$ produz probabilidades negativas quando $p < \delta$; o odds ratio mantém o resultado em $(0, 1)$ para qualquer entrada:
 
 $$p_{\text{pós}} = \frac{p \cdot \omega}{1 - p + p \cdot \omega}, \qquad \omega < 1 \Rightarrow \text{redução}$$
 
-### 3.4 Dispersion Index
+### 4.4 Dispersion Index
 
 Ao final da simulação, o motor calcula o fator de dispersão observado $\phi = \text{Var}[\text{faltas}]_{\text{simulada}} \,/\, \text{Var}[\text{faltas}]_{\text{independente}}$ como diagnóstico empírico da sobredispersão introduzida pela cópula.
 
@@ -220,7 +229,7 @@ $$\mathcal{S} = \underbrace{\{\texttt{agendado},\, \texttt{aguardando\_confirmac
 
 > **Reagendado é estado próprio**, não cancelamento. Reagendar preserva o paciente no sistema **e** devolve a vaga; cancelar perde as duas coisas. Colapsar os dois superestima a perda e apaga exatamente o desfecho que a intervenção mais tenta produzir.
 
-### 4.1 Estimação com Suavização de Dirichlet
+### 5.1 Estimação com Suavização de Dirichlet
 
 A pseudo-contagem $\alpha$ não é enfeite: sem ela, um estado nunca observado produz uma linha inteira de zeros — que não é distribuição de probabilidade e quebra a simulação em silêncio.
 
@@ -238,11 +247,11 @@ static MatrizTransicao estimar(List<EventoTransicao> eventos, {double alpha = 1.
 }
 ```
 
-### 4.2 Cadeia Não-Homogênea por Faixa Temporal
+### 5.2 Cadeia Não-Homogênea por Faixa Temporal
 
 Uma cadeia homogênea afirma que a chance de confirmar é a mesma faltando 30 dias ou faltando 1. Isso é empiricamente falso. A implementação particiona os eventos em **faixas de dias até a consulta** (`30–15`, `14–8`, `7–4`, `3–2`, `1–0`) e estima matrizes independentes por faixa.
 
-### 4.3 Shrinkage Hierárquico (Empirical Bayes)
+### 5.3 Shrinkage Hierárquico (Empirical Bayes)
 
 Segmentos com poucas observações são "encolhidos" em direção à matriz global, evitando overfitting em amostras pequenas e resolvendo o problema de **partida a frio** (cold-start):
 
@@ -256,11 +265,11 @@ onde $k = 50$ é o número de observações que dá peso 50/50. Abaixo disso, a 
 
 O overbooking não é decidido por dia, mas por **slot** (médico × hora), pois uma falta às 16h não libera capacidade para um encaixe às 9h.
 
-### 5.1 Alocação Gulosa
+### 6.1 Alocação Gulosa
 
 Cada encaixe é alocado no slot que **adiciona o menor risco marginal**. O cenário é julgado pelo **pior slot** — não pela média — para evitar que um slot seguro mascare um slot já saturado.
 
-### 5.2 Dois Modos de Risco
+### 6.2 Dois Modos de Risco
 
 | Modo | Encaixe falta? | Interpretação |
 |:---|:---|:---|
@@ -269,7 +278,7 @@ Cada encaixe é alocado no slot que **adiciona o menor risco marginal**. O cená
 
 Os dois modos fornecem **limites** inferior e superior do risco, não uma estimativa pontual única.
 
-### 5.3 Fila antes do Overbooking
+### 6.3 Fila antes do Overbooking
 
 A **lista de espera** é dimensionada pelo quartil inferior ($Q_{25}$) das vagas liberadas por cancelamento — não pela média, que erraria para cima em metade dos dias. Preencher uma vaga de fato liberada não cria espera para ninguém; o encaixe especulativo cria.
 
@@ -277,7 +286,7 @@ A **lista de espera** é dimensionada pelo quartil inferior ($Q_{25}$) das vagas
 
 ## 7. Arquitetura Modular e Grafo Acíclico Dirigido
 
-### 6.1 Registro de Módulos
+### 7.1 Registro de Módulos
 
 A plataforma é composta por **28 módulos** registrados declarativamente em [`module_registry.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/core/modules/module_registry.dart). Cada módulo declara:
 
@@ -290,7 +299,7 @@ A plataforma é composta por **28 módulos** registrados declarativamente em [`m
 | `ownedCollections` | Coleções Firestore onde o módulo **pode escrever** |
 | `readsCollections` | Coleções compartilhadas que o módulo **apenas lê** |
 
-### 6.2 Invariantes do Grafo
+### 7.2 Invariantes do Grafo
 
 O grafo de dependências é validado em runtime pelo [`ModuleGraph`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/core/modules/module_graph.dart), que garante três invariantes simultaneamente:
 
@@ -328,11 +337,11 @@ List<List<String>> detectCycles() {
 }
 ```
 
-### 6.3 Ordenação Topológica e Hot-Swap
+### 7.3 Ordenação Topológica e Hot-Swap
 
 A **ordenação topológica** fornece uma sequência de implementação que respeita todas as dependências. Na interface, cada módulo pode ser habilitado ou desabilitado em tempo de execução; o grafo garante que desabilitar um módulo bloqueia automaticamente as rotas dos módulos que dele dependem (via `transitiveDependencies`), sem quebrar o restante do sistema.
 
-### 6.4 Hierarquia de Prioridades
+### 7.4 Hierarquia de Prioridades
 
 ```text
 P0 (Base)         auth → navegacao → home → agendamentos → criar_agendamento
@@ -423,6 +432,8 @@ vitta-care-trl-evidencias/
 ├── CHANGELOG.md                       # Histórico de evolução tecnológica
 │
 ├── docs/
+│   ├── Resumo_Monte_Carlo_Copula_Gaussiana.pdf # Resumo executivo em PDF
+│   ├── explicacao-monte-carlo-copula.md        # Guia didático do motor
 │   ├── pipeline-ia-completo.md        # Pipeline de IA (Azure ML, métricas, SHAP)
 │   ├── arquitetura.md                 # Componentes, camadas e integrações
 │   ├── modelo-preditivo.md            # Formulação MC, Markov e calibração
@@ -442,6 +453,8 @@ vitta-care-trl-evidencias/
 │   └── exemplo_resultado.json         # Resposta do motor preditivo
 │
 └── diagrams/                          # Logo, fluxos e diagramas conceituais
+    ├── fluxograma_monte_carlo.png     # Fluxograma do motor estocástico
+    └── ...
 ```
 
 ---

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Resumo Didático: Simulador de Monte Carlo com Cópula Gaussiana - Vitta Care</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 14mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.4;
+  }
+  .page {
+    width: 100%;
+    height: 275mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 2px solid #0284c7;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .brand-title {
+    font-size: 17pt;
+    font-weight: 800;
+    color: #0369a1;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .brand-sub {
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 3px;
+  }
+  .doc-tag {
+    font-size: 8pt;
+    color: #0284c7;
+    font-weight: 700;
+    background: #e0f2fe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 14pt;
+    color: #0f172a;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .subtitle {
+    font-size: 8.5pt;
+    color: #475569;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  h2 {
+    font-size: 10.5pt;
+    color: #0369a1;
+    font-weight: 700;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    border-left: 3px solid #0284c7;
+    padding-left: 6px;
+  }
+
+  p {
+    margin-bottom: 6px;
+    text-align: justify;
+    font-size: 9pt;
+  }
+
+  /* Callout Cards */
+  .card-highlight {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+  }
+  .card-blue {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-left: 3px solid #0284c7;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+  .card-formula {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .formula-text {
+    font-family: 'Courier New', monospace;
+    font-size: 12pt;
+    color: #38bdf8;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .formula-legend {
+    font-size: 7.5pt;
+    color: #cbd5e1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+
+  /* Two column grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .col-box {
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 8pt;
+    line-height: 1.35;
+  }
+  .col-danger {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+  }
+  .col-danger h4 { color: #be123c; font-size: 8.5pt; margin-bottom: 3px; }
+  .col-success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .col-success h4 { color: #15803d; font-size: 8.5pt; margin-bottom: 3px; }
+
+  /* Diagram image container */
+  .diagram-container {
+    text-align: center;
+    margin: 6px 0;
+  }
+  .diagram-img {
+    width: 100%;
+    max-height: 112mm;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Comparison Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 8px;
+    text-align: left;
+  }
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+    font-size: 7.5pt;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Tecnologia em Saúde · Inova Simples (I.S.)</div>
+      </div>
+      <div class="doc-tag">RESUMO EXECUTIVO DIDÁTICO</div>
+    </div>
+
+    <h1>O que é o Simulador de Monte Carlo com Cópula Gaussiana?</h1>
+    <div class="subtitle">
+      Uma explicação direta e acessível sobre como o modelo estocástico da Vitta Care prevê a volatilidade real de faltas em clínicas médicas e viabiliza encaixes inteligentes sem superlotação.
+    </div>
+
+    <h2>1. A Falácia da "Média": Por que a conta tradicional falha na clínica?</h2>
+    <p>
+      A maioria das clínicas utiliza uma <b>lógica estática de média</b>: se historicamente <b>20% dos pacientes faltam</b> e há 100 consultas agendadas hoje, o gestor assume que <i>"faltarão 20 pessoas"</i>.
+    </p>
+    <p>
+      Na realidade assistencial, a média é ilusória. Há dias em que faltam apenas 4 pacientes (e se a clínica fez encaixes, a recepção superlotará com atrasos severos). Em outros dias faltam 35 (e médicos ficam com horas de ociosidade irreversível). Tratar o futuro como uma média pontual gera desperdício financeiro e desgaste da reputação.
+    </p>
+
+    <div class="grid-2">
+      <div class="col-box col-danger">
+        <h4>❌ Gestão por Média Ingênua</h4>
+        • Assume que o absenteísmo é constante todo dia.<br>
+        • Ignora fatores coletivos (clima, transporte, feriados).<br>
+        • Autoriza encaixes sem avaliar risco de cauda.<br>
+        • Consequência: atrasos de 1h+ ou médicos ociosos.
+      </div>
+      <div class="col-box col-success">
+        <h4>✅ Abordagem Estocástica Vitta Care</h4>
+        • Simula 20.000 cenários possíveis para o mesmo dia.<br>
+        • Incorpora a probabilidade individual de cada paciente (IA).<br>
+        • Avalia o impacto slot por slot (hora × médico).<br>
+        • Consequência: encaixes com controle estrito de risco.
+      </div>
+    </div>
+
+    <h2>2. O que é a Simulação de Monte Carlo?</h2>
+    <p>
+      O método de <b>Monte Carlo</b> consiste em "jogar os dados no computador" milhares de vezes em frações de segundo para explorar todos os futuros possíveis. Em vez de calcular uma média cega, o algoritmo da Vitta Care:
+    </p>
+    <div class="card-blue">
+      1. Lê a probabilidade predita individual de cada paciente (calculada pelo pipeline de IA do Azure ML).<br>
+      2. Roda uma simulação do dia completo, sorteando o desfecho de cada consulta de acordo com sua probabilidade.<br>
+      3. <b>Repete esse processo 20.000 vezes</b> para reproduzir todas as combinações possíveis de faltas e presenças.<br>
+      4. Gera uma <b>distribuição de probabilidade completa</b>: <i>"Em 95% dos cenários simulados, as faltas hoje ficarão entre 14 e 22 pacientes"</i>.
+    </div>
+
+    <h2>3. O "Pulo do Gato": Por que a Cópula Gaussiana é Essencial?</h2>
+    <p>
+      Uma simulação de Monte Carlo pura assume que as decisões dos pacientes são <b>100% independentes</b>. Porém, no mundo real, <b>os pacientes compartilham o mesmo contexto urbano e climático</b>:
+    </p>
+    <p>
+      Em dias de chuva torrencial, alagamentos, greve de transporte ou vésperas de feriados prolongados, <b>as pessoas faltam em conjunto</b>. Em dias amenos e ensolarados, o comparecimento é maciço.
+    </p>
+    <p>
+      A <b>Cópula Gaussiana de um fator</b> é o instrumento matemático que modela essa dependência entre consultas do mesmo dia através da equação latente:
+    </p>
+
+    <div class="card-formula">
+      <div class="formula-text">X<sub>i</sub> = √(ρ) · Z + √(1 - ρ) · ε<sub>i</sub></div>
+      <div class="formula-legend">
+        <div><b>Z (Fator Comum do Dia):</b> Clima, trânsito ou feriado que afeta a todos coletivamente.</div>
+        <div><b>ε<sub>i</sub> (Fator Individual):</b> O imprevisto pessoal específico de cada paciente.</div>
+        <div><b>ρ (Correlação Latente):</b> Intensidade do fator ambiental sobre o grupo (padrão: 3%).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Documentação de Maturidade Tecnológica TRL 5/6</span>
+    <span>Página 1 de 2</span>
+  </div>
+</div>
+
+<!-- PÁGINA 2 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Fluxograma Operacional & Otimização de Capacidade</div>
+      </div>
+      <div class="doc-tag">FLUXOGRAMA & DECISÃO</div>
+    </div>
+
+    <h2>4. Fluxograma do Processo: Da Agenda ao Overbooking Seguro</h2>
+    <div class="subtitle" style="margin-bottom: 4px;">
+      Visão ponta a ponta: do escore preditivo da IA à liberação matemática de encaixes na recepção:
+    </div>
+
+    <div class="diagram-container">
+      <img class="diagram-img" src="../diagrams/fluxograma_monte_carlo.png" alt="Fluxograma Monte Carlo com Cópula Gaussiana" />
+    </div>
+
+    <h2>5. Por que Avaliar por Slot (Hora × Médico) e Nunca por Dia?</h2>
+    <p>
+      Uma das principais causas de falha em sistemas hospitalares é a agregação diária. Uma falta prevista para as <b>16h da tarde</b> não libera capacidade para um encaixe marcado às <b>09h da manhã</b>.
+    </p>
+    <div class="card-highlight">
+      O motor da Vitta Care particiona a agenda em <b>slots horários independentes por profissional</b>. O algoritmo guloso avalia o risco marginal de cada slot e baseia a aprovação de novos agendamentos no <b>pior slot do médico</b> (e não na média). Se encaixar alguém às 11h elevar o risco de atraso além da tolerância máxima configurada (ex: 5%), a recepção é alertada e o encaixe é impedido.
+    </div>
+
+    <h2>6. Resumo Executivo: Antes vs Depois da Vitta Care</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Critério</th>
+          <th>Operação Convencional (Média)</th>
+          <th>Plataforma Vitta Care (Estocástica)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Previsão de Faltas</b></td>
+          <td>Percentual histórico estático e cego</td>
+          <td>IA individualizada no Azure ML + 20.000 cenários de Monte Carlo</td>
+        </tr>
+        <tr>
+          <td><b>Eventos Externos</b></td>
+          <td>Completamente ignorados</td>
+          <td>Cópula Gaussiana de 1 fator (absorve choques de clima e trânsito)</td>
+        </tr>
+        <tr>
+          <td><b>Granularidade</b></td>
+          <td>Média global da clínica no dia</td>
+          <td>Slot por slot (médico × hora), julgamento pelo pior horário</td>
+        </tr>
+        <tr>
+          <td><b>Fila de Espera</b></td>
+          <td>Dimensionamento empírico / inflado</td>
+          <td>Dimensionada pelo quantil Q<sub>25</sub> das vagas efetivamente liberadas</td>
+        </tr>
+        <tr>
+          <td><b>Impacto Prático</b></td>
+          <td>Cadeiras ociosas ou atrasos caóticos</td>
+          <td>Recuperação de até 80% da receita perdida com pontualidade garantida</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card-blue" style="margin-top: 8px;">
+      <b>Conclusão:</b> O Simulador de Monte Carlo com Cópula Gaussiana transforma a incerteza do absenteísmo em uma ferramenta de gestão de capacidade. Ele permite que a clínica atenda mais pacientes sem degradar a experiência de atendimento e a pontualidade médica.
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Programa ELDORADO de Aceleração em IA</span>
+    <span>Página 2 de 2</span>
+  </div>
+</div>
+
+</body>
+</html>

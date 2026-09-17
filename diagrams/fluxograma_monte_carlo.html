@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .flowchart-container {
+    width: 1100px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    padding: 35px 40px;
+    border: 1px solid #e2e8f0;
+  }
+  .title-area {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 5px 14px;
+    background: #e0f2fe;
+    color: #0284c7;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 24px;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  /* Steps Layout */
+  .steps-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+  }
+  .step-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .step-number {
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+  }
+  .step-icon {
+    font-size: 22px;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+  }
+  .step-desc {
+    font-size: 12.5px;
+    color: #475569;
+    line-height: 1.45;
+    flex-grow: 1;
+  }
+  .step-box {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+
+  /* Specific Card Themes */
+  .card-1 { border-color: #38bdf8; }
+  .card-1 .step-number { background: #0284c7; }
+  .card-1 .step-box { background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; }
+
+  .card-2 { border-color: #818cf8; }
+  .card-2 .step-number { background: #4f46e5; }
+  .card-2 .step-box { background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; font-family: monospace; }
+
+  .card-3 { border-color: #f472b6; }
+  .card-3 .step-number { background: #db2777; }
+  .card-3 .step-box { background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; }
+
+  .card-4 { border-color: #fb923c; }
+  .card-4 .step-number { background: #ea580c; }
+  .card-4 .step-box { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; }
+
+  .card-5 { border-color: #34d399; }
+  .card-5 .step-number { background: #059669; }
+  .card-5 .step-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-weight: 600; }
+
+  /* Arrows */
+  .arrow-indicator {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* Math Banner */
+  .math-banner {
+    margin-top: 25px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 12px;
+    padding: 18px 24px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+  }
+  .math-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    color: #38bdf8;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .math-legend {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* Comparison Grid */
+  .comparison-grid {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .comp-box {
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .comp-bad {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #9f1239;
+  }
+  .comp-bad h4 {
+    color: #be123c;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .comp-good {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+  }
+  .comp-good h4 {
+    color: #15803d;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="flowchart-container">
+  <div class="title-area">
+    <div class="badge">Vitta Care · Motor Estocástico</div>
+    <h1>Como Funciona o Simulador de Monte Carlo com Cópula Gaussiana</h1>
+    <p class="subtitle">Do risco individual da IA à decisão matemática de overbooking seguro sem superlotação</p>
+  </div>
+
+  <div class="steps-row">
+    <!-- Passo 1 -->
+    <div class="step-card card-1">
+      <div class="step-number">1</div>
+      <div class="step-header">
+        <span class="step-icon">📋</span>
+        <div class="step-title">Entradas da Agenda & IA</div>
+      </div>
+      <div class="step-desc">
+        A agenda do dia fornece a lista de pacientes. O modelo preditivo de IA atribui a probabilidade individual de falta (<i>p<sub>i</sub></i>) baseada no histórico, distância e antecedência.
+      </div>
+      <div class="step-box">
+        Paciente A: 12%<br>
+        Paciente B: 45%<br>
+        Paciente C: 28%
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 2 -->
+    <div class="step-card card-2">
+      <div class="step-number">2</div>
+      <div class="step-header">
+        <span class="step-icon">🔗</span>
+        <div class="step-title">Cópula Gaussiana (A Conexão)</div>
+      </div>
+      <div class="step-desc">
+        Reconhece que as pessoas <b>não decidem no vácuo</b>. Combina o fator do dia (<i>Z</i>: chuva, greve, trânsito) com o imprevisto individual (<i>ε<sub>i</sub></i>).
+      </div>
+      <div class="step-box">
+        X<sub>i</sub> = √(ρ)·Z + √(1-ρ)·ε<sub>i</sub><br>
+        ρ = 0.03 (correlação latente)
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 3 -->
+    <div class="step-card card-3">
+      <div class="step-number">3</div>
+      <div class="step-header">
+        <span class="step-icon">🎲</span>
+        <div class="step-title">Monte Carlo (20.000 Runs)</div>
+      </div>
+      <div class="step-desc">
+        O computador simula o dia inteiro <b>20.000 vezes</b> em microssegundos. Cada rodada testa um "futuro possível" com dias chuvosos, dias normais e dias de pico.
+      </div>
+      <div class="step-box">
+        Simula 3 desfechos:<br>
+        • Compareceu<br>
+        • Cancelou antes<br>
+        • Faltou sem aviso
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 4 -->
+    <div class="step-card card-4">
+      <div class="step-number">4</div>
+      <div class="step-header">
+        <span class="step-icon">⏰</span>
+        <div class="step-title">Análise por Slot (Hora × Médico)</div>
+      </div>
+      <div class="step-desc">
+        Não julga o dia como uma média só. Uma falta às 16h não ajuda um encaixe das 09h. Avalia a probabilidade de cadeira vazia em cada horário específico.
+      </div>
+      <div class="step-box">
+        09:00 - Dr. Pedro: 1 vaga livre<br>
+        14:00 - Dra. Ana: Risco alto<br>
+        15:00 - Dr. Carlos: Vaga segura
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 5 -->
+    <div class="step-card card-5">
+      <div class="step-number">5</div>
+      <div class="step-header">
+        <span class="step-icon">🛡️</span>
+        <div class="step-title">Decisão de Overbooking</div>
+      </div>
+      <div class="step-desc">
+        Alocação gulosa no melhor slot. O sistema julga o risco pelo <b>pior horário</b> do médico. Permite encaixes com garantia de fila sob controle.
+      </div>
+      <div class="step-box">
+        ✓ Encaixe aprovado às 15h<br>
+        ✓ Risco de atraso &lt; 5%<br>
+        ✓ Zero cadeira ociosa
+      </div>
+    </div>
+  </div>
+
+  <!-- Math Banner -->
+  <div class="math-banner">
+    <div>
+      <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 4px;">O Coração Matemático da Cópula</div>
+      <div class="math-formula">X<sub>i</sub> = √(ρ) · Z + √(1 - ρ) · ε<sub>i</sub></div>
+    </div>
+    <div class="math-legend">
+      <div class="legend-item">
+        <span class="legend-dot" style="background: #38bdf8;"></span>
+        <span><b>Z</b> = Fator Comum do Dia (chuva, greve, feriado)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background: #a855f7;"></span>
+        <span><b>ε<sub>i</sub></b> = Fator Individual do Paciente</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-dot" style="background: #f59e0b;"></span>
+        <span><b>ρ</b> = Grau de Dependência Coletiva (ex: 3%)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Grid -->
+  <div class="comparison-grid">
+    <div class="comp-box comp-bad">
+      <h4>❌ Abordagem Tradicional (Conta de Média)</h4>
+      <p>Assume que se a média de faltas é 20%, todo dia faltam exatamente 20%. Encaixa pacientes às cegas. Em dias de tempo bom, todos comparecem e a sala de espera vira um caos de reclamações.</p>
+    </div>
+    <div class="comp-box comp-good">
+      <h4>✅ Vitta Care (Monte Carlo + Cópula Gaussiana)</h4>
+      <p>Sabe que existem dias bons e dias ruins em bando. Prevê os piores cenários e só autoriza encaixes nos horários onde o risco de fila é matematicamente desprezível, maximizando a receita da clínica com conforto ao paciente.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
