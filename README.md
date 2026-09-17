@@ -1,355 +1,402 @@
 <div align="center">
 
-# Vitta Care — Plataforma de IA para Predição e Redução de Absenteísmo em Saúde
-### Repositório Oficial de Evidências de Desenvolvimento Tecnológico (TRL 5/6)
+<img src="diagrams/logo.png" alt="Vitta Care" width="200"/>
 
-[![TRL](https://img.shields.io/badge/TRL-5%2F6%20(Prot%C3%B3tipo%20Operacional)-brightgreen.svg)](#-prontid%C3%A3o-tecnol%C3%B3gica-trl-56)
-[![Flutter](https://img.shields.io/badge/Frontend-Flutter%203.x%20Web%2FMobile-02569B.svg?logo=flutter)](https://flutter.dev)
-[![Python](https://img.shields.io/badge/AI%2FData%20Science-Python%20%7C%20Scikit--Learn%20%7C%20XGBoost-3776AB.svg?logo=python)](https://python.org)
-[![Firebase](https://img.shields.io/badge/Backend-Firebase%20%7C%20Cloud%20Services-FFCA28.svg?logo=firebase)](https://firebase.google.com)
-[![LGPD](https://img.shields.io/badge/Privacy-LGPD%20%26%20HIPAA%20Compliant%20(PHI%20Guard)-blue.svg)](#-privacidade-lgpd-e-propriedade-intelectual)
-[![Programa Eldorado](https://img.shields.io/badge/Programa-ELDORADO%20IA%20para%20Startups-orange.svg)](#-programa-eldorado-de-acelera%C3%A7%C3%A3o-tecnol%C3%B3gica)
+# Vitta Care
+
+### Plataforma de Modelagem Estocástica e Otimização de Capacidade Assistencial para Redução de Absenteísmo em Serviços de Saúde
+
+[![TRL](https://img.shields.io/badge/TRL-5%2F6-brightgreen.svg)](#11-prontidão-tecnológica-e-programa-eldorado)
+[![Flutter](https://img.shields.io/badge/Flutter%203.x-02569B.svg?logo=flutter)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-0175C2.svg?logo=dart)](https://dart.dev)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28.svg?logo=firebase)](https://firebase.google.com)
+[![LGPD](https://img.shields.io/badge/LGPD%20Compliant-blue.svg)](#10-conformidade-lgpd-e-propriedade-intelectual)
+[![ELDORADO](https://img.shields.io/badge/Programa%20ELDORADO-orange.svg)](#11-prontidão-tecnológica-e-programa-eldorado)
 
 <br/>
 
-<img src="diagrams/logo.png" alt="Vitta Care Logo" width="280"/>
-
-<p align="center">
-  <b>VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)</b><br/>
-  <i>Inteligência Artificial preditiva, modelagem estocástica de Monte Carlo, cadeias de Markov e automação para otimização de capacidade assistencial em saúde pública e privada.</i>
-</p>
-
----
+**VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)**
 
 </div>
 
-> **Objetivo deste Repositório:** Reunir e estruturar as **evidências técnicas e arquiteturais do desenvolvimento da plataforma Vitta Care** para comprovação de maturidade tecnológica (**TRL 5/6**), com foco na submissão e acompanhamento no **Programa ELDORADO de Aceleração Tecnológica em IA para Startups**.
->
-> 🔒 **Nota de Conformidade:** Este repositório concentra **estritamente documentação técnica, artefatos arquiteturais, exemplos anonimizados e registros visuais de funcionamento**. Dados pessoais de pacientes, credenciais sensíveis e contratos institucionais são mantidos sob custódia segura e restrita.
+---
+
+> **Propósito deste repositório.** Concentrar evidências técnicas do desenvolvimento da plataforma Vitta Care — código-fonte demonstrativo, capturas de tela operacionais, formulações matemáticas implementadas e documentação arquitetural — para comprovação de maturidade tecnológica no contexto do **Programa ELDORADO de Aceleração Tecnológica em IA para Startups**.
 
 ---
 
-## 📑 Sumário
+## Sumário
 
-1. [Visão Geral e Problema Tecnológico](#-visão-geral-e-problema-tecnológico)
-2. [Solução Vitta Care e Escopo Técnico Implementado](#-solução-vitta-care-e-escopo-técnico-implementado)
-3. [Galeria de Evidências Visuais da Aplicação](#-galeria-de-evidências-visuais-da-aplicação)
-4. [Arquitetura da Solução e Grafo Modular](#-arquitetura-da-solução-e-grafo-modular)
-5. [Modelos de IA e Formulação Matemática](#-modelos-de-ia-e-formulação-matemática)
-6. [Pipeline de Dados e Anonimização (PHI Guard)](#-pipeline-de-dados-e-anonimização-phi-guard)
-7. [Matriz de Integrações e Testes de Validação](#-matriz-de-integrações-e-testes-de-validação)
-8. [Prontidão Tecnológica (TRL 5/6) e Desafios ELDORADO](#-prontidão-tecnológica-trl-56-e-desafios-eldorado)
-9. [Estrutura do Repositório](#-estrutura-do-repositório)
-10. [Privacidade, LGPD e Propriedade Intelectual](#-privacidade-lgpd-e-propriedade-intelectual)
-11. [Links e Evidências Externas](#-links-e-evidências-externas)
-
----
-
-## 🩺 Visão Geral e Problema Tecnológico
-
-O **absenteísmo de pacientes em consultas médicas (no-show)** é uma das maiores fontes de ineficiência nos sistemas de saúde do Brasil e do mundo:
-
-- **Perda Crítica de Capacidade:** Taxas médias de falta variam entre 20% e 40% tanto na rede pública (SUS/UBS) quanto no setor suplementar.
-- **Danos Financeiros e Operacionais:** Horas ociosas de médicos especialistas, equipamentos subutilizados e aumento desproporcional nas filas de espera.
-- **Limitação das Abordagens Tradicionais:** Métodos convencionais atuam de forma meramente reativa (lembretes manuais não segmentados ou cancelamentos tardios que não permitem o preenchimento da vaga).
-
-### A Abordagem da Vitta Care
-
-A **Vitta Care** atua de forma preditiva e estocástica:
-1. **Antecipa o risco de falta** individual com dias de antecedência por meio de modelos preditivos supervisionados calibrados.
-2. **Modela a dinâmica da jornada** da consulta através de **Cadeias de Markov** com estados absorventes.
-3. **Calcula o overbooking ótimo seguro** utilizando **Simulações de Monte Carlo** (com propagação de incerteza tripla: forecast WAPE, incerteza de parâmetros via distribuição Beta e incerteza amostral multinomial).
-4. **Executa ações preventivas automatizadas** via régua multicanal WhatsApp com confirmação rápida e encaixe automático de pacientes em fila de espera.
+1. [Formulação do Problema](#1-formulação-do-problema)
+2. [Abordagem Técnica](#2-abordagem-técnica)
+3. [Simulador de Monte Carlo com Cópula Gaussiana](#3-simulador-de-monte-carlo-com-cópula-gaussiana)
+4. [Cadeia de Markov da Jornada do Agendamento](#4-cadeia-de-markov-da-jornada-do-agendamento)
+5. [Motor de Decisão de Overbooking](#5-motor-de-decisão-de-overbooking)
+6. [Arquitetura Modular e Grafo Acíclico Dirigido](#6-arquitetura-modular-e-grafo-acíclico-dirigido)
+7. [Evidências Visuais da Plataforma](#7-evidências-visuais-da-plataforma)
+8. [Pipeline de Calibração e Integridade Estatística](#8-pipeline-de-calibração-e-integridade-estatística)
+9. [Estrutura do Repositório](#9-estrutura-do-repositório)
+10. [Conformidade LGPD e Propriedade Intelectual](#10-conformidade-lgpd-e-propriedade-intelectual)
+11. [Prontidão Tecnológica e Programa ELDORADO](#11-prontidão-tecnológica-e-programa-eldorado)
 
 ---
 
-## 🚀 Solução Vitta Care e Escopo Técnico Implementado
+## 1. Formulação do Problema
 
-Todas as funcionalidades listadas abaixo encontram-se **implementadas e validadas em ambiente operacional e laboratorial** na base do projeto:
+O **absenteísmo de pacientes** (no-show) em consultas ambulatoriais gera perda de capacidade assistencial cujo impacto cascateia sobre o sistema de saúde:
 
-| Componente / Módulo | Estado de Desenvolvimento | Descrição Técnica |
-| :--- | :---: | :--- |
-| **Plataforma Web/Mobile Multi-Tenant** | `Implementado` | Frontend Flutter 3 com 28 módulos mapeados, reatividade Riverpod e roteamento dinâmico GoRouter. |
-| **Modelo Preditivo de No-Show** | `Implementado` | Classificador probabilístico (Scikit-Learn/XGBoost) com cálculo de SHAP values para explicabilidade clínica. |
-| **Simulador de Monte Carlo** | `Implementado` | Motor estocástico com 10.000 iterações, propagando incerteza preditiva, paramétrica e amostral. |
-| **Modelagem por Cadeias de Markov** | `Implementado` | Matriz de transição de estados com regularização de Dirichlet (Laplace) e tratamento de estados absorventes. |
-| **Monitor de Atendimento em Tempo Real** | `Implementado` | Painel de chamada de recepção física com sinalização sonora e sincronização via WebSockets/Streams. |
-| **Totem de Autoatendimento** | `Implementado` | Interface dedicada para check-in autônomo e emissão de senhas prioritárias/normais (`/#/totem`). |
-| **Automação de Mensageria (WhatsApp)** | `Implementado` | Integração de envio de lembretes ativos com botões interativos e atualização em 1 clique. |
-| **Health Score do Paciente** | `Implementado` | Algoritmo de engajamento do paciente correlacionando adesão ao tratamento e pontualidade histórica. |
-| **IA Médica & PubMed (E-Utilities)** | `Implementado` | Mecanismo de busca e sintetização de evidências científicas com sanitização estrita de dados clínicos. |
-| **Módulo PHI Guard (LGPD/HIPAA)** | `Implementado` | Mecanismo de desidentificação de dados sensíveis na borda (*edge*) antes de inferências ou persistência. |
-| **Grafo Modular e DAG de Dependências** | `Implementado` | Motor de ordenação topológica que permite habilitar/desabilitar subsistemas sem quebrar a aplicação. |
+- **Ociosidade clínica irreversível.** O horário do profissional de saúde é perecível: uma vez transcorrido, não pode ser recuperado.
+- **Amplificação de filas de espera.** Vagas não preenchidas aumentam o tempo médio de espera para todos os pacientes subsequentes na rede.
+- **Assimetria entre cancelamento e falta.** Um cancelamento com antecedência suficiente libera a vaga para reocupação; uma falta sem aviso não libera nada — a cadeira fica vazia e a capacidade é destruída. Soluções que tratam os dois desfechos como equivalentes superestimam sistematicamente a capacidade recuperável.
+
+As abordagens convencionais operam de forma **reativa** (lembretes não segmentados, cancelamentos tardios) e **homogênea** (mesma intervenção para todo paciente). A Vitta Care substitui essas premissas por **estimação probabilística individualizada**, **dependência entre desfechos do mesmo dia** e **decisão de overbooking por slot** (médico × hora), não por dia.
 
 ---
 
-## 📸 Galeria de Evidências Visuais da Aplicação
+## 2. Abordagem Técnica
 
-As imagens abaixo foram capturadas diretamente da aplicação em execução, comprovando o funcionamento ponta-a-ponta dos módulos da plataforma:
+A solução implementa três camadas matemáticas que se alimentam mutuamente:
 
-### 1. Painel Principal & Indicadores Operacionais
-> **Figura 01 — Dashboard Central da Vitta Care.**  
-> Monitoramento em tempo real de taxas de ocupação, consultas confirmadas, receita recuperável, previsão de faltas e índices de absenteísmo por especialidade.
+```text
+                    ┌────────────────────────────────────┐
+                    │  Probabilidades individuais p_i    │
+                    │  (risco categórico → calibração)   │
+                    └──────────┬─────────────────────────┘
+                               │
+              ┌────────────────▼────────────────────┐
+              │  Monte Carlo com Cópula Gaussiana    │
+              │  (20.000 runs, ρ = 0.03, 3 estados) │
+              └──────────┬─────────────────┬────────┘
+                         │                 │
+              ┌──────────▼──────┐  ┌───────▼──────────────┐
+              │  Poisson-Binomial│  │  Projeção 12 meses   │
+              │  exata (ρ = 0)  │  │  Markov + Monte Carlo │
+              └──────────┬──────┘  └───────┬──────────────┘
+                         │                 │
+              ┌──────────▼─────────────────▼──────────────┐
+              │  Decisão de Overbooking por Slot           │
+              │  (alocação gulosa, risco por pior slot)    │
+              └───────────────────────────────────────────┘
+```
+
+A distinção entre os três desfechos (comparece, cancela com antecedência, falta sem avisar) é estrutural, não simplificação: cada um tem consequência operacional distinta e probabilidade marginal independente por consulta.
+
+---
+
+## 3. Simulador de Monte Carlo com Cópula Gaussiana
+
+O motor de simulação está implementado em [`monte_carlo_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_engine.dart) (~776 linhas de Dart, lógica pura testável sem Flutter).
+
+### 3.1 Modelagem da Dependência
+
+Faltas do mesmo dia **não são independentes**. Fatores sistêmicos — chuva forte, greve de transporte, ondas respiratórias, feriado — movem todos os desfechos na mesma direção. Uma Poisson-Binomial pura subestima a variância da contagem de faltas. A solução é uma **cópula gaussiana de um fator**:
+
+$$X_i = \sqrt{\rho}\, Z + \sqrt{1 - \rho}\, \varepsilon_i, \qquad Z, \varepsilon_i \sim \mathcal{N}(0,1)$$
+
+onde $Z$ é o **fator sistêmico do dia** (compartilhado por todos os agendamentos) e $\varepsilon_i$ é o componente idiossincrático de cada consulta. O parâmetro $\rho \in [0, 1)$ calibra a intensidade da correlação latente. Valores observados típicos estão entre $0{,}02$ e $0{,}05$; o padrão é $\rho = 0{,}03$.
+
+O desfecho é determinado por limiares na escala latente:
+
+$$\text{desfecho}_i = \begin{cases}
+\texttt{falta}       & \text{se } X_i \le \Phi^{-1}(p_i^{\text{falta}}) \\
+\texttt{cancelamento} & \text{se } X_i \le \Phi^{-1}(p_i^{\text{falta}} + p_i^{\text{cancel}}) \\
+\texttt{comparecimento} & \text{caso contrário}
+\end{cases}$$
+
+Esta formulação preserva **exatamente** as probabilidades marginais de cada consulta enquanto injeta a correlação desejada entre elas.
+
+### 3.2 Caso Degenerado: Poisson-Binomial Exata
+
+Quando $\rho = 0$ a simulação é substituída pela **forma fechada da Poisson-Binomial** por convolução dinâmica $O(n^2)$, eliminando qualquer erro de amostragem. Este caminho serve como **oráculo** para os testes do amostrador.
+
+```dart
+/// PMF exata da Poisson-binomial por convolução dinâmica.
+/// Exata e O(n²) — para n = 220 são ~48 mil operações, microssegundos.
+static List<double> poissonBinomialPmf(List<double> ps) {
+  var pmf = <double>[1.0];
+  for (final p in ps) {
+    final pc = p.clamp(0.0, 1.0);
+    final next = List<double>.filled(pmf.length + 1, 0.0);
+    for (var k = 0; k < pmf.length; k++) {
+      final v = pmf[k];
+      if (v == 0) continue;
+      next[k] += v * (1 - pc);
+      next[k + 1] += v * pc;
+    }
+    pmf = next;
+  }
+  return pmf;
+}
+```
+
+### 3.3 Intervenção via Razão de Chances
+
+Reduções de risco são modeladas como **razão de chances** (odds ratio), não como delta aditivo sobre probabilidade. Um delta aditivo $(p - \delta)$ produz probabilidades negativas quando $p < \delta$; o odds ratio mantém o resultado em $(0, 1)$ para qualquer entrada:
+
+$$p_{\text{pós}} = \frac{p \cdot \omega}{1 - p + p \cdot \omega}, \qquad \omega < 1 \Rightarrow \text{redução}$$
+
+### 3.4 Dispersion Index
+
+Ao final da simulação, o motor calcula o fator de dispersão observado $\phi = \text{Var}[\text{faltas}]_{\text{simulada}} \,/\, \text{Var}[\text{faltas}]_{\text{independente}}$ como diagnóstico empírico da sobredispersão introduzida pela cópula.
+
+---
+
+## 4. Cadeia de Markov da Jornada do Agendamento
+
+O ciclo de vida de uma consulta é modelado como cadeia de Markov absorvente com 7 estados, implementada em [`markov_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/projecao_12m/markov_engine.dart):
+
+$$\mathcal{S} = \underbrace{\{\texttt{agendado},\, \texttt{aguardando\_confirmacao},\, \texttt{confirmado}\}}_{\text{transitórios}} \cup \underbrace{\{\texttt{compareceu},\, \texttt{faltou},\, \texttt{cancelado},\, \texttt{reagendado}\}}_{\text{absorventes}}$$
+
+> **Reagendado é estado próprio**, não cancelamento. Reagendar preserva o paciente no sistema **e** devolve a vaga; cancelar perde as duas coisas. Colapsar os dois superestima a perda e apaga exatamente o desfecho que a intervenção mais tenta produzir.
+
+### 4.1 Estimação com Suavização de Dirichlet
+
+A pseudo-contagem $\alpha$ não é enfeite: sem ela, um estado nunca observado produz uma linha inteira de zeros — que não é distribuição de probabilidade e quebra a simulação em silêncio.
+
+```dart
+static MatrizTransicao estimar(List<EventoTransicao> eventos, {double alpha = 1.0}) {
+  final contagens = <EstadoAgendamento, Map<EstadoAgendamento, double>>{
+    for (final o in EstadoAgendamento.values)
+      o: {for (final d in EstadoAgendamento.values) d: alpha},
+  };
+  for (final e in eventos) {
+    if (e.origem.absorvente) continue;
+    contagens[e.origem]![e.destino] = (contagens[e.origem]![e.destino] ?? 0) + 1;
+  }
+  // Normalização: soma de cada linha = 1.0 (absorventes = auto-laço puro)
+}
+```
+
+### 4.2 Cadeia Não-Homogênea por Faixa Temporal
+
+Uma cadeia homogênea afirma que a chance de confirmar é a mesma faltando 30 dias ou faltando 1. Isso é empiricamente falso. A implementação particiona os eventos em **faixas de dias até a consulta** (`30–15`, `14–8`, `7–4`, `3–2`, `1–0`) e estima matrizes independentes por faixa.
+
+### 4.3 Shrinkage Hierárquico (Empirical Bayes)
+
+Segmentos com poucas observações são "encolhidos" em direção à matriz global, evitando overfitting em amostras pequenas e resolvendo o problema de **partida a frio** (cold-start):
+
+$$\hat{P}_{\text{seg}} = w \cdot P_{\text{seg}} + (1 - w) \cdot P_{\text{global}}, \qquad w = \frac{n_{\text{seg}}}{n_{\text{seg}} + k}$$
+
+onde $k = 50$ é o número de observações que dá peso 50/50. Abaixo disso, a matriz global domina; acima, o segmento fala por si.
+
+---
+
+## 5. Motor de Decisão de Overbooking
+
+O overbooking não é decidido por dia, mas por **slot** (médico × hora), pois uma falta às 16h não libera capacidade para um encaixe às 9h.
+
+### 5.1 Alocação Gulosa
+
+Cada encaixe é alocado no slot que **adiciona o menor risco marginal**. O cenário é julgado pelo **pior slot** — não pela média — para evitar que um slot seguro mascare um slot já saturado.
+
+### 5.2 Dois Modos de Risco
+
+| Modo | Encaixe falta? | Interpretação |
+|:---|:---|:---|
+| **Conservador** (`EncaixeModo.certo`) | Não | Limite superior do risco. |
+| **Probabilístico** (`EncaixeModo.probabilistico`) | Sim, com $p_{\text{encaixe}}$ | Convolução da distribuição do slot com a Binomial dos encaixes. Ignora o fator comum do dia para encaixes — portanto é levemente **otimista**. |
+
+Os dois modos fornecem **limites** inferior e superior do risco, não uma estimativa pontual única.
+
+### 5.3 Fila antes do Overbooking
+
+A **lista de espera** é dimensionada pelo quartil inferior ($Q_{25}$) das vagas liberadas por cancelamento — não pela média, que erraria para cima em metade dos dias. Preencher uma vaga de fato liberada não cria espera para ninguém; o encaixe especulativo cria.
+
+---
+
+## 6. Arquitetura Modular e Grafo Acíclico Dirigido
+
+### 6.1 Registro de Módulos
+
+A plataforma é composta por **28 módulos** registrados declarativamente em [`module_registry.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/core/modules/module_registry.dart). Cada módulo declara:
+
+| Atributo | Semântica |
+|:---|:---|
+| `id` | Identificador estável (corresponde à pasta em `features/`) |
+| `priority` | Faixa de prioridade: P0 (base), P1 (fluxo diário), P2 (analytics), P3 (avançado) |
+| `status` | Estado real: `implemented`, `partial` ou `planned` |
+| `dependsOn` | Lista de ids dos módulos dos quais este depende (arestas do grafo) |
+| `ownedCollections` | Coleções Firestore onde o módulo **pode escrever** |
+| `readsCollections` | Coleções compartilhadas que o módulo **apenas lê** |
+
+### 6.2 Invariantes do Grafo
+
+O grafo de dependências é validado em runtime pelo [`ModuleGraph`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/core/modules/module_graph.dart), que garante três invariantes simultaneamente:
+
+**1. Aciclicidade (DAG).** Detecção de ciclos por DFS com coloração de três estados (branco/cinza/preto). Se um ciclo existir, a ordenação topológica lança `StateError` e a validação retorna os ciclos detectados.
+
+**2. Completude de dependências.** Toda aresta aponta para um módulo que existe no registro. Referências a módulos inexistentes são coletadas como `missingDeps`.
+
+**3. Isolamento de coleções.** Cada coleção Firestore `owned` pertence a **no máximo um módulo**. Se dois módulos declaram escrita na mesma coleção, `collectionConflicts` registra a violação.
+
+```dart
+/// Detecção de ciclos via DFS com coloração tripartite.
+List<List<String>> detectCycles() {
+  final cycles = <List<String>>[];
+  final state = <String, int>{}; // 0=branco, 1=cinza, 2=preto
+  final stack = <String>[];
+  void dfs(String id) {
+    state[id] = 1;
+    stack.add(id);
+    for (final dep in _byId[id]?.dependsOn ?? const []) {
+      if (_byId[dep] == null) continue;
+      if (state[dep] == 1) {
+        final start = stack.indexOf(dep);
+        cycles.add([...stack.sublist(start), dep]);
+      } else if (state[dep] != 2) {
+        dfs(dep);
+      }
+    }
+    stack.removeLast();
+    state[id] = 2;
+  }
+  for (final m in modules) {
+    if (state[m.id] != 2) dfs(m.id);
+  }
+  return cycles;
+}
+```
+
+### 6.3 Ordenação Topológica e Hot-Swap
+
+A **ordenação topológica** fornece uma sequência de implementação que respeita todas as dependências. Na interface, cada módulo pode ser habilitado ou desabilitado em tempo de execução; o grafo garante que desabilitar um módulo bloqueia automaticamente as rotas dos módulos que dele dependem (via `transitiveDependencies`), sem quebrar o restante do sistema.
+
+### 6.4 Hierarquia de Prioridades
+
+```text
+P0 (Base)         auth → navegacao → home → agendamentos → criar_agendamento
+P1 (Fluxo diário) recepcao, pacientes, equipe_medica, totem
+P2 (Analytics)    absenteismo, monte_carlo, overbooking, health_score, relatorios
+P3 (Avançado)     projecao_12m, ia, whatsapp, evidencias, cerebro
+```
+
+---
+
+## 7. Evidências Visuais da Plataforma
+
+As capturas abaixo foram extraídas da aplicação em execução, demonstrando o funcionamento real dos módulos de absenteísmo e gestão operacional.
+
+### 7.1 Painel de Indicadores Operacionais
+> Dashboard central com KPIs de absenteísmo, taxa de ocupação e evolução temporal.
+
 <div align="center">
   <img src="evidencias/dashboards/02_home_dashboard.png" alt="Dashboard Principal" width="90%"/>
 </div>
 
 ---
 
-### 2. Motor de Inteligência Artificial para Predição de Absenteísmo
-> **Figura 02 — Módulo Preditivo de No-Show e Análise de Risco.**  
-> Inferência probabilística individualizada por agendamento, estratificação de risco (Baixo, Médio, Alto) e detalhamento dos fatores de maior impacto via explicabilidade algorítmica.
+### 7.2 Motor de Predição de Absenteísmo
+> Módulo preditivo com estratificação de risco por paciente, heatmap de concentração de faltas por dia/horário, índice de absenteísmo segmentado por médico e especialidade.
+
 <div align="center">
   <img src="evidencias/modelo-ia/04_absenteismo_predicao_ia.png" alt="Predição de Absenteísmo" width="90%"/>
 </div>
 
 ---
 
-### 3. Simulador Estocástico de Monte Carlo para Dimensionamento de Agendas
-> **Figura 03 — Simulador de Monte Carlo e Análise de Incertezas.**  
-> Parametrização de 10.000 iterações com propagação de incerteza de forecast (WAPE), taxa histórica e distribuição multinomial para determinação da taxa de overbooking defensável sem atrasos.
+### 7.3 Simulador Estocástico de Monte Carlo
+> Interface de parametrização da simulação: número de runs, correlação latente (ρ), modo de encaixe, distribuição de faltas por slot (médico × hora) e avaliação de cenários de overbooking.
+
 <div align="center">
   <img src="evidencias/modelo-ia/05_simulador_monte_carlo.png" alt="Simulador de Monte Carlo" width="90%"/>
 </div>
 
 ---
 
-### 4. Projeção Operacional e Financeira em 12 Meses
-> **Figura 04 — Módulo de Projeção em 12 Meses.**  
-> Decomposição do ganho real versus antecipação de demanda, com estimativa de impacto na receita e capacidade assistencial acumulada ao longo do ano.
+### 7.4 Projeção em 12 Meses (Cadeia de Markov + Monte Carlo)
+> Projeção operacional e financeira: cenário baseline versus cenário com intervenção, decomposição de receita defensável versus antecipação de demanda, governança de parâmetros.
+
 <div align="center">
   <img src="evidencias/dashboards/06_projecao_12_meses.png" alt="Projeção 12 Meses" width="90%"/>
 </div>
 
 ---
 
-### 5. Gestão de Agendamentos & Agenda Médica Integrada
-> **Figura 05 — Grade de Agendamentos e Atendimentos.**  
-> Interface unificada com marcação de consultas, identificação de alertas de risco preditivo e controle de comparecimento.
+### 7.5 Gestão de Agendamentos e Grade Médica
+> Grade de agendamentos com alertas de risco preditivo integrados.
+
 <div align="center">
   <img src="evidencias/screenshots/03_agenda_medica.png" alt="Agenda Médica" width="90%"/>
 </div>
 
 ---
 
-### 6. Recepção, Triagem e Monitor em Tempo Real
-> **Figura 06 — Fila Geral da Recepção e Painel de Monitor de TV.**  
-> Controle de fluxo presencial de pacientes, categorização por triagem e visualizador em tela cheia para salas de espera.
+### 7.6 Mapa de Módulos e Validação do Grafo de Dependências (DAG)
+> Sistema de governança arquitetural com 28 módulos, ordenação topológica e status de implementação.
+
 <div align="center">
-  <img src="evidencias/screenshots/07_recepcao_fila.png" alt="Recepção e Fila" width="48%"/>
-  <img src="evidencias/dashboards/08_monitor_recepcao.png" alt="Monitor de Recepção" width="48%"/>
+  <img src="evidencias/screenshots/11_mapa_arquitetura_modulos.png" alt="Mapa de Módulos" width="90%"/>
 </div>
 
 ---
 
-### 7. Health Score do Paciente e Automação de Comunicação
-> **Figura 07 — Health Score e Régua de Disparos WhatsApp.**  
-> Indicadores de histórico de engajamento do paciente e configuração da régua automática de confirmações com respostas bidirecionais.
-<div align="center">
-  <img src="evidencias/dashboards/09_health_score_pacientes.png" alt="Health Score" width="48%"/>
-  <img src="evidencias/screenshots/10_automacao_whatsapp.png" alt="Automação WhatsApp" width="48%"/>
-</div>
+## 8. Pipeline de Calibração e Integridade Estatística
+
+Antes de substituir os parâmetros padrão do modelo pelas taxas observadas na base real de uma clínica, o motor de calibração ([`monte_carlo_calibracao.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_calibracao.dart)) executa verificações de integridade dos dados:
+
+| Verificação | Tipo | Consequência |
+|:---|:---|:---|
+| Amostra mínima por faixa de risco | Bloqueante se $n < 50$ | Taxa não substitui o padrão (Wilson CI muito largo) |
+| Drift temporal (taxa dos últimos 30d vs histórica) | Alerta | Sinaliza necessidade de recalibração |
+| Label version mismatch | Bloqueante | Impede comparação de séries com rótulos de desfecho diferentes |
+
+O intervalo de confiança utilizado é o de **Wilson**, não Wald: com poucas observações ou taxa próxima de 0 ou 1, o Wald produz limites fora de $[0, 1]$.
 
 ---
 
-### 8. Arquitetura Modular e Validação de Dependências (DAG)
-> **Figura 08 — Mapa de Módulos e Ordenação Topológica.**  
-> Sistema de governança de código e integridade da arquitetura, demonstrando 28 módulos isolados com resolução acíclica de dependências.
-<div align="center">
-  <img src="evidencias/screenshots/11_mapa_arquitetura_modulos.png" alt="Mapa de Arquitetura" width="90%"/>
-</div>
-
----
-
-## 🏗 Arquitetura da Solução e Grafo Modular
-
-A arquitetura da Vitta Care é orientada a microsserviços desacoplados e reatividade em tempo real:
-
-```mermaid
-flowchart LR
-    subgraph Frontend["Frontend Multi-Tenant (Flutter)"]
-        F1[Painel Web Gestor]
-        F2[Monitor Recepção]
-        F3[Totem Autoatendimento]
-    end
-
-    subgraph Core["Core Application Layer"]
-        G1[ModuleGraph / DAG Validation]
-        G2[State Management - Riverpod]
-        G3[Deep Linking - GoRouter]
-    end
-
-    subgraph Data["Camada de Dados & Segurança"]
-        D1[(Cloud Firestore / PostgreSQL)]
-        D2[PHI Guard - Desidentificação]
-        D3[Firebase Auth / RBAC]
-    end
-
-    subgraph AI["Camada de Inteligência Artificial"]
-        M1[Modelo Preditivo No-Show]
-        M2[Cadeia de Markov]
-        M3[Simulador Monte Carlo]
-        M4[IA Médica PubMed]
-    end
-
-    Frontend --> Core
-    Core --> Data
-    Data --> AI
-    AI --> Core
-```
-
-Para a documentação completa dos componentes técnicos e do grafo de dependências, consulte:
-📖 [docs/arquitetura.md](docs/arquitetura.md)
-
----
-
-## 🧠 Modelos de IA e Formulação Matemática
-
-### 1. Inferência Supervisionada de No-Show
-A probabilidade de falta é estimada através de modelos de árvore de decisão com gradiente impulsionado (**XGBoost / LightGBM**) treinados sobre atributos históricos e contextuais:
-
-$$P(\text{No-Show} = 1 \mid \mathbf{x}) = \sigma\left(\sum_{k=1}^K f_k(\mathbf{x})\right)$$
-
-Com atributos-chave:
-- `dias_antecedencia`: Janela temporal entre a solicitação e o horário da consulta.
-- `taxa_hist`: Frequência observada de faltas nos últimos 12 meses.
-- `distancia_km`: Proximidade física da residência até o ponto de atendimento.
-- `lembrete`: Confirmação ou ausência de interação na régua de mensageria.
-
-### 2. Modelagem Estocástica por Cadeias de Markov
-A consulta progride através do espaço de estados:
-
-$$\mathcal{S} = \{\text{agendado}, \text{aguardando\_confirmacao}, \text{confirmado}, \text{compareceu}, \text{faltou}, \text{cancelado}, \text{reagendado}\}$$
-
-Com estimação de transições vetorizada e regularização de Laplace Dirichlet:
-
-```python
-counts = pd.crosstab(origem[val], destino[val]).reindex(index=STATES, columns=STATES, fill_value=0)
-counts += alpha  # Suavização de Dirichlet para evitar probabilidades zero
-P = counts.div(counts.sum(axis=1), axis=0)
-```
-
-### 3. Simulação de Monte Carlo
-Dimensionamento estocástico de risco que propaga conjuntamente:
-1. Incerteza da demanda futura: $N \sim \text{Lognormal}(\mu, \sigma_{\text{WAPE}})$.
-2. Incerteza do parâmetro de probabilidade: $p \sim \text{Beta}(a, b)$.
-3. Incerteza amostral finita: $\mathbf{Y} \sim \text{Multinomial}(N, [p_{\text{comp}}, p_{\text{falta}}, p_{\text{canc}}])$.
-
-Para mais detalhes e formulações matemáticas completas, consulte:
-📖 [docs/modelo-preditivo.md](docs/modelo-preditivo.md)
-
----
-
-## 🔬 Pipeline de Dados e Anonimização (PHI Guard)
-
-O pipeline de dados opera com estrita segregação analítica e sanitização de dados no lado do cliente (*client-side filtering*):
-
-```text
-[ Agendamento Criado ]
-         │
-         ▼
-[ PHI Guard Interceptor ] ───(Exclusão de CPF, Nomes e Telefones)
-         │
-         ▼
-[ Feature Engineering ] ────(Cálculo de Distâncias e Intervalos)
-         │
-         ▼
-[ Inferência do Modelo ] ───(Geração de Probabilidade e SHAP)
-         │
-         ▼
-[ Painel de Gestão ] ───────(Apresentação de Ações Recomendadas)
-```
-
-Consulte as especificações do fluxo em:
-📖 [docs/pipeline-dados.md](docs/pipeline-dados.md)
-
----
-
-## 🔗 Matriz de Integrações e Testes de Validação
-
-| Integração | Tecnologia | Papel Tecnológico | Status |
-| :--- | :--- | :--- | :---: |
-| **WhatsApp API** | REST / Webhooks | Automação de lembretes e confirmações com botões de ação instantânea | `Homologado` |
-| **PubMed / NCBI** | E-Utilities / XML | Curadoria de evidências clínicas indexadas para apoio à decisão | `Homologado` |
-| **Firebase Auth** | SDK / WebAuthn | Gestão de sessões, perfis (RBAC) e login biométrico nativo | `Homologado` |
-| **Totem / Monitor** | Reactive Streams | Comunicação síncrona em <300ms entre emissor de senhas e painel de TV | `Homologado` |
-
-Todos os testes de carga, integridade modular e latência estão documentados em:
-📖 [docs/testes-validacao.md](docs/testes-validacao.md) | [docs/integracoes.md](docs/integracoes.md)
-
----
-
-## 🎯 Prontidão Tecnológica (TRL 5/6) e Desafios ELDORADO
-
-A solução Vitta Care situa-se no nível **TRL 5/6** (Tecnologia demonstrada e validada em ambiente relevante e operacional representativo).
-
-### Desafios Tecnológicos para a Aceleração ELDORADO (Evolução para TRL 7 → 8/9):
-1. **MLOps Contínuo e Drift Detection:** Criação de rotinas autônomas de monitoramento de desvios (*data drift* e *concept drift*) induzidos por sazonalidade climática ou epidemiológica.
-2. **Explicabilidade Clínica em Larga Escala (XAI):** Geração de relatórios auditáveis com SHAP para conferir total transparência aos comitês médicos e gestores do SUS.
-3. **Interoperabilidade em Saúde Pública:** Padronização em **HL7 FHIR** e conectores para integração com o barramento do **e-SUS APS** e **RNDS**.
-4. **Agente Conversacional Generativo Seguro:** Modelo de linguagem clínica para triagem de sintomas de preparo de consultas, respeitando salvaguardas estritas e limites éticos.
-
-Consulte o detalhamento do plano de evolução técnica em:
-📖 [docs/evolucao-tecnologica.md](docs/evolucao-tecnologica.md) | [CHANGELOG.md](CHANGELOG.md)
-
----
-
-## 📁 Estrutura do Repositório
+## 9. Estrutura do Repositório
 
 ```text
 vitta-care-trl-evidencias/
-├── README.md                          # Documento consolidado de evidências e arquitetura
-├── CHANGELOG.md                       # Histórico formal de versões e lançamentos
+├── README.md                          # Este documento
+├── CHANGELOG.md                       # Histórico de evolução tecnológica
 │
-├── docs/                              # Documentação técnica detalhada
-│   ├── arquitetura.md                 # Arquitetura, componentes e grafo modular
-│   ├── modelo-preditivo.md            # Modelagem de Machine Learning, Markov e Monte Carlo
-│   ├── pipeline-dados.md              # Fluxo de engenharia de dados e governança
-│   ├── integracoes.md                 # Matriz de integrações externas homologadas
-│   ├── testes-validacao.md            # Protocolos e resultados dos testes de validação
-│   └── evolucao-tecnologica.md        # Diagnóstico de TRL e metas do Programa ELDORADO
+├── docs/
+│   ├── arquitetura.md                 # Componentes, camadas e integrações
+│   ├── modelo-preditivo.md            # Formulação MC, Markov e calibração
+│   ├── pipeline-dados.md              # ETL, feature engineering e PHI Guard
+│   ├── integracoes.md                 # Matriz de integrações homologadas
+│   ├── testes-validacao.md            # Protocolos e resultados de validação
+│   └── evolucao-tecnologica.md        # Diagnóstico de TRL e metas ELDORADO
 │
-├── evidencias/                        # Artefatos visuais extraídos do sistema real
-│   ├── dashboards/                    # Telas de gestão, monitor e projeções financeiras
-│   ├── modelo-ia/                     # Telas de inferência preditiva e simulações
-│   ├── screenshots/                   # Telas operacionais de agenda, login e recepção
-│   └── testes/                        # Relatórios e logs anonimizados de execução
+├── evidencias/
+│   ├── dashboards/                    # Home, projeção 12m, monitor, health score
+│   ├── modelo-ia/                     # Absenteísmo, simulador Monte Carlo
+│   └── screenshots/                   # Login, agenda, recepção, módulos
 │
-├── exemplos/                          # Cargas demonstrativas anonimizadas
-│   ├── exemplo_dados_anonimizados.csv # Dataset sintético de treino e validação
-│   ├── exemplo_inferencia.json        # Payload de entrada para predição de no-show
-│   └── exemplo_resultado.json         # Resposta do motor preditivo com probabilidades
+├── exemplos/
+│   ├── exemplo_dados_anonimizados.csv # Dataset sintético demonstrativo
+│   ├── exemplo_inferencia.json        # Payload de entrada para predição
+│   └── exemplo_resultado.json         # Resposta do motor preditivo
 │
-└── diagrams/                          # Diagramas conceituais e identidade visual
-    ├── logo.png                       # Marca oficial Vitta Care
-    ├── jornada_do_paciente.png        # Mapeamento do ciclo de atendimento
-    └── absenteismo_workflow.png       # Fluxo de contenção preditiva
+└── diagrams/                          # Logo, fluxos e diagramas conceituais
 ```
 
 ---
 
-## 🔐 Privacidade, LGPD e Propriedade Intelectual
+## 10. Conformidade LGPD e Propriedade Intelectual
 
-A **Vitta Care** aplica os princípios de *Privacy by Design* e *Privacy by Default* em toda a sua esteira de software:
+Este repositório é **exclusivamente documental e demonstrativo**. Não contém bases de dados de produção, identificadores de pacientes, credenciais de infraestrutura ou código proprietário estratégico.
 
-- **Dados Médicos e Pessoais Preservados:** Este repositório é estritamente documental e demonstrativo. Nenhuma base de dados de produção, identificador pessoal de paciente ou registro de saúde protegido está contido nestes arquivos.
-- **Segredos e Chaves:** Chaves de API, segredos de infraestrutura e tokens de provedores externos são injetados exclusivamente em tempo de execução via gerenciadores de segredos (*Secret Managers*) e arquivos `.env` estritamente ignorados pelo versionador (`.gitignore`).
-- **Anonimização Certificada:** Todos os exemplos JSON/CSV apresentados contêm registros puramente sintéticos, elaborados unicamente para fins de verificação metodológica.
+Todos os exemplos JSON/CSV são **sintéticos**, elaborados para verificação metodológica. A plataforma aplica os princípios de *Privacy by Design* com o módulo **PHI Guard**, que remove determinísticamente identificadores pessoais antes de qualquer processamento analítico.
 
 ---
 
-## 🌐 Links e Evidências Externas
+## 11. Prontidão Tecnológica e Programa ELDORADO
 
-Para manter o repositório técnico focado em desenvolvimento de software e ciência de dados, as **evidências institucionais, cartas de validação externa e registros de mercado** são mantidas em ambiente documental controlado:
+A solução situa-se no nível **TRL 5/6** — tecnologia demonstrada e validada em ambiente computacional representativo.
 
-- 📂 **Repositório de Evidências Institucionais (Google Drive):** Documentos de apoio, cartas de intenção para pilotos em Unidades Básicas de Saúde (UBS), fotos de participação no **68º Congresso de Municípios** e aceleração **Sebrae for Startups**.  
-  👉 *(Link disponibilizado diretamente no formulário de inscrição do Programa ELDORADO)*
-- 💻 **Código-Fonte da Aplicação (Repositório Privado):** `https://github.com/allanfs1/Vitta_Care_flutter`
-- 🏢 **Startup:** VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)
+### Desafios Tecnológicos Propostos para Aceleração (TRL 7 → 9)
+
+| Desafio | Complexidade Científica |
+|:---|:---|
+| **MLOps contínuo e drift detection** | Pipeline autônomo de monitoramento de data drift e concept drift com recalibração adaptativa |
+| **Explicabilidade clínica (XAI)** | SHAP TreeExplainer com vocabulário compreensível ao corpo clínico, limites éticos para não-discriminação |
+| **Interoperabilidade HL7 FHIR / e-SUS / RNDS** | Adaptadores padronizados para integração com a Rede Nacional de Dados em Saúde |
+| **Validação em ambiente operacional** | Piloto controlado com mensuração do poder estatístico necessário para detectar efeito mínimo clinicamente relevante |
 
 ---
 
 <div align="center">
-  <b>Vitta Care Solutions</b> — Transformando a Gestão e o Acesso à Saúde com Inteligência Artificial.<br/>
-  <sub>© 2026 Vitta Care. Todos os direitos reservados.</sub>
+  <sub>© 2026 Vitta Care Solutions · Todos os direitos reservados</sub>
 </div>

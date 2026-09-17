@@ -1,123 +1,91 @@
-# Modelo Preditivo de Absenteísmo e Modelagem Estocástica
+# Modelagem Estocástica de Absenteísmo
 
-O absenteísmo em consultas médicas compromete a capacidade operacional e gera prejuízos assistenciais significativos. A Vitta Care aborda esse desafio combinando **Machine Learning Preditivo**, **Cadeias de Markov** e **Simulação de Monte Carlo**.
+## 1. Simulação de Monte Carlo com Cópula Gaussiana
 
----
+### 1.1 Premissas de Modelagem
 
-## 1. Modelo Preditivo de Absenteísmo (No-Show)
+Quatro decisões sustentam o motor de simulação (`monte_carlo_engine.dart`, ~776 linhas):
 
-### 1.1 Objetivo
-Estimar a probabilidade condicional $P(\text{No-Show} \mid X)$ para cada agendamento, permitindo que a instituição adote medidas preventivas personalizadas antes da data da consulta.
+1. **Faltas do mesmo dia não são independentes.** Fatores sistêmicos (clima, greve, feriados) empurram todos os desfechos na mesma direção. A dependência é introduzida por cópula gaussiana de um fator, preservando as probabilidades marginais exatamente.
 
-### 1.2 Dicionário de Variáveis (Features)
+2. **Três estados, não dois.** Cancelar com antecedência libera a vaga; faltar não libera nada. Tratá-los como equivalentes superestima a capacidade recuperável.
 
-| Atributo | Tipo | Descrição |
-| :--- | :--- | :--- |
-| `dias_antecedencia` | Numérico | Número de dias entre a marcação e a data da consulta |
-| `distancia_km` | Numérico | Distância geográfica estimada entre a residência e a unidade |
-| `consultas_30d` | Numérico | Frequência de atendimentos nos últimos 30 dias |
-| `taxa_hist` | Numérico [0, 1] | Taxa histórica individual de faltas do paciente |
-| `lembrete` | Booleano | Indicação se o paciente recebeu e interagiu com o lembrete |
-| `feriado` | Booleano | Proximidade de feriados nacionais ou municipais |
-| `is_weekend` | Booleano | Consulta marcada em dia de final de semana |
-| `periodo` | Categórico | Turno da consulta (Manhã, Tarde, Noite) |
-| `idade` | Numérico | Idade cronológica do paciente |
-| `historico_faltas` | Numérico | Contagem absoluta de faltas anteriores registradas |
+3. **Overbooking é decidido por slot (médico × hora), não por dia.** Uma falta às 16h não gera capacidade disponível às 9h.
 
-### 1.3 Exemplo Demonstrativo de Código (Python / Scikit-Learn / XGBoost)
+4. **A fila vem antes do overbooking.** Vagas liberadas por cancelamento são preenchidas sem criar espera; encaixes especulativos criam.
 
-```python
-import numpy as np
-import xgboost as xgb
-from sklearn.metrics import roc_auc_score, brier_score_loss
+### 1.2 Modelo de Risco Categórico
 
-features = [
-    "dias_antecedencia",
-    "distancia_km",
-    "consultas_30d",
-    "taxa_hist",
-    "lembrete",
-    "feriado",
-    "is_weekend",
-    "idade",
-    "historico_faltas"
-]
+A classe `ModeloRisco` converte o nível de risco categórico de cada agendamento em probabilidades marginais:
 
-# Inferência pontual com calibração probabilística
-probabilidade = modelo.predict_proba(dados[features])[:, 1]
-```
+| Nível de risco | $p(\text{falta})$ | $p(\text{cancel})$ | $p(\text{comparece})$ |
+|:---|:---:|:---:|:---:|
+| `low` | 0.06 | 0.03 | 0.91 |
+| `medium` | 0.15 | 0.06 | 0.79 |
+| `high` | 0.32 | 0.10 | 0.58 |
 
-### 1.4 Métricas de Desempenho e Validação
+Estas são taxas padrão calibráveis: `MonteCarloCalibracao` as substitui pelas taxas observadas na base real quando a amostra é suficiente ($n \geq 50$, com intervalo de Wilson).
 
-- **ROC-AUC:** $0.842$ (capacidade de discriminação entre faltosos e presentes)
-- **Brier Score:** $0.118$ (alta calibração das probabilidades)
-- **F1-Score (Classe Positiva):** $0.76$
-- **Explicabilidade (SHAP Values):** Cada predição é acompanhada dos 3 fatores de maior peso para justificar o alerta ao recepcionista.
+### 1.3 Cópula Gaussiana de Um Fator
 
----
+Para $n$ consultas do dia, com $Z \sim \mathcal{N}(0,1)$ (fator sistêmico compartilhado) e $\varepsilon_i \sim \mathcal{N}(0,1)$ (componente idiossincrático):
 
-## 2. Modelagem Estocástica da Jornada (Cadeia de Markov)
+$$X_i = \sqrt{\rho}\,Z + \sqrt{1-\rho}\,\varepsilon_i$$
 
-A jornada da consulta é modelada como um processo estocástico com estados transientes e absorventes:
+Limiares na escala latente:
+- $z_i^{\text{falta}} = \Phi^{-1}(p_i^{\text{falta}})$
+- $z_i^{\text{cancel}} = \Phi^{-1}(p_i^{\text{falta}} + p_i^{\text{cancel}})$
 
-$$\mathcal{S} = \{\text{agendado}, \text{aguardando\_confirmacao}, \text{confirmado}\} \cup \{\text{compareceu}, \text{faltou}, \text{cancelado}, \text{reagendado}\}$$
+Desfecho:
+$$\text{desfecho}_i = \begin{cases}
+\texttt{falta} & X_i \leq z_i^{\text{falta}} \\
+\texttt{cancel} & z_i^{\text{falta}} < X_i \leq z_i^{\text{cancel}} \\
+\texttt{comparece} & X_i > z_i^{\text{cancel}}
+\end{cases}$$
 
-Os estados $\{\text{compareceu}, \text{faltou}, \text{cancelado}, \text{reagendado}\}$ constituem a classe de **estados absorventes**. A estimação da matriz de transição utiliza suavização de Dirichlet (Laplace) para evitar probabilidades nulas em amostras pequenas:
+**Propriedade fundamental:** as marginais são preservadas exatamente. Apenas a estrutura de dependência (variância da contagem total) muda com $\rho$.
 
-```python
-STATES = ['agendado', 'aguardando_confirmacao', 'confirmado',
-          'compareceu', 'faltou', 'cancelado', 'reagendado']
-ABSORBENTES = {'compareceu', 'faltou', 'cancelado', 'reagendado'}
+### 1.4 Inversa da Normal (Acklam)
 
-def matriz_transicao(df, alpha=1.0):
-    """Estima matriz P a partir de eventos, vetorizada com suavização de Dirichlet."""
-    d = df.sort_values(['agendamento_id', 'timestamp'])
-    d = d[d['estado'].isin(STATES)]
-    origem = d['estado']
-    destino = d.groupby('agendamento_id')['estado'].shift(-1)
-    val = destino.notna()
+A implementação usa o algoritmo de Acklam para $\Phi^{-1}(p)$ com precisão $\sim 10^{-9}$, evitando dependências numéricas externas.
 
-    counts = pd.crosstab(origem[val], destino[val]) \
-               .reindex(index=STATES, columns=STATES, fill_value=0).astype(float)
-    counts += alpha
-    for s in ABSORBENTES:
-        counts.loc[s, :] = 0.0
-        counts.loc[s, s] = 1.0
+### 1.5 Intervenção via Razão de Chances
 
-    return counts.div(counts.sum(axis=1), axis=0)
-```
+$$p_{\text{pós}} = \frac{p \cdot \omega}{(1-p) + p\cdot\omega}$$
+
+onde $\omega < 1$ reduz a chance de falta. Parte da massa migrada da falta para o comparecimento transita como cancelamento com aviso — exatamente o desfecho que a intervenção tenta produzir.
+
+### 1.6 Configuração da Simulação
+
+| Parâmetro | Padrão | Justificativa |
+|:---|:---:|:---|
+| `nRuns` | 20.000 | Sob $\rho = 0{,}03$, o erro de MC do P95 estabiliza aqui; 50.000 gasta 2,5× mais para mover número estacionário |
+| `seed` | 42 | Determinismo: mesma entrada → mesmo resultado |
+| `rho` | 0.03 | Mediana observada; reestimar semanalmente |
+| `pFaltaEncaixe` | 0.15 | Encaixes são pacientes chamados de última hora — adesão diferente da média |
 
 ---
 
-## 3. Simulação de Monte Carlo para Overbooking Seguro
+## 2. Cadeia de Markov Absorvente
 
-Para dimensionar a agenda sem comprometer o tempo de espera do paciente nem gerar ociosidade médica, a plataforma simula $10.000$ iterações mensais propagando **três fontes de incerteza**:
+### 2.1 Espaço de Estados
 
-1. **Incerteza do Forecast:** $N \sim \text{Lognormal}(\mu, \sigma_{\text{WAPE}})$
-2. **Incerteza do Parâmetro:** $p_{\text{falta}} \sim \text{Beta}(\alpha, \beta)$ a partir do histórico
-3. **Incerteza Amostral:** Realização via distribuição **Multinomial** garantindo estrita conservação de desfechos.
+7 estados: 3 transitórios + 4 absorventes. Reagendado é estado próprio (não cancelamento).
 
-```python
-def simular_mes(n_esperado, p, *, wape_forecast=0.12, n_hist=800,
-                capacidade=None, n_sim=10_000, rng=None):
-    rng = rng or np.random.default_rng(42)
-    sigma = np.sqrt(np.log(1 + wape_forecast ** 2))
-    n_draw = rng.lognormal(np.log(max(n_esperado, 1e-9)) - sigma ** 2 / 2, sigma, size=n_sim)
-    if capacidade is not None:
-        n_draw = np.minimum(n_draw, capacidade)
-    n_draw = np.maximum(np.rint(n_draw), 0).astype(int)
+### 2.2 Estimação Dirichlet
 
-    p_falta = rng.beta(p['falta'] * n_hist, (1 - p['falta']) * n_hist, size=n_sim)
-    p_canc = rng.beta(p['cancelamento'] * n_hist, (1 - p['cancelamento']) * n_hist, size=n_sim)
-    p_comp = np.clip(1.0 - p_falta - p_canc, 1e-9, None)
+Pseudo-contagem $\alpha = 1$ (Laplace): garante que toda linha seja distribuição válida. Estados absorventes recebem auto-laço puro ($P_{s,s} = 1$) sem suavização.
 
-    probs = np.stack([p_comp, p_falta, p_canc], axis=1)
-    probs /= probs.sum(axis=1, keepdims=True)
+### 2.3 Não-Homogeneidade Temporal
 
-    out = np.empty((n_sim, 3), dtype=np.int64)
-    for i in range(n_sim):
-        out[i] = rng.multinomial(n_draw[i], probs[i])
+Matrizes independentes por faixa de dias até a consulta. Sem isso, o modelo afirma que a chance de confirmar é a mesma faltando 30 dias e faltando 1 — empiricamente falso.
 
-    return {'agendamentos': n_draw, 'comparecimentos': out[:, 0],
-            'faltas': out[:, 1], 'cancelamentos': out[:, 2]}
-```
+### 2.4 Shrinkage Hierárquico
+
+$$\hat{P} = w P_{\text{segmento}} + (1-w) P_{\text{global}}, \qquad w = \frac{n}{n+k}$$
+
+Resolve partida a frio: $k = 50$ observações dá peso 50/50.
+
+### 2.5 Probabilidades de Absorção
+
+Iteração da distribuição até massa transitória $< 10^{-12}$. Teto de 2.000 iterações como salvaguarda contra matrizes malformadas. Massa residual é atribuída a `cancelado` para manter a distribuição fechada.
