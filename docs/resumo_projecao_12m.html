@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Projeção em 12 Meses (Cadeia de Markov + Monte Carlo) - Vitta Care</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 10mm 14mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.4;
+  }
+  .page {
+    width: 100%;
+    height: 275mm;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  .page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 2px solid #059669;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .brand-title {
+    font-size: 17pt;
+    font-weight: 800;
+    color: #047857;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .brand-sub {
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 3px;
+  }
+  .doc-tag {
+    font-size: 8pt;
+    color: #047857;
+    font-weight: 700;
+    background: #ecfdf5;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 14pt;
+    color: #0f172a;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .subtitle {
+    font-size: 8.5pt;
+    color: #475569;
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  h2 {
+    font-size: 10.5pt;
+    color: #047857;
+    font-weight: 700;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    border-left: 3px solid #059669;
+    padding-left: 6px;
+  }
+
+  p {
+    margin-bottom: 6px;
+    text-align: justify;
+    font-size: 9pt;
+  }
+
+  /* Cards */
+  .card-highlight {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+  }
+  .card-green {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 3px solid #059669;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 6px 0;
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+  .card-dark {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .formula-text {
+    font-family: 'Courier New', monospace;
+    font-size: 11pt;
+    color: #34d399;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .formula-legend {
+    font-size: 7.5pt;
+    color: #cbd5e1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+
+  /* Two column grid */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .col-box {
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 8pt;
+    line-height: 1.35;
+  }
+  .col-cancel {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+  }
+  .col-cancel h4 { color: #be123c; font-size: 8.5pt; margin-bottom: 3px; }
+  .col-reschedule {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+  .col-reschedule h4 { color: #15803d; font-size: 8.5pt; margin-bottom: 3px; }
+
+  /* Diagram image container */
+  .diagram-container {
+    text-align: center;
+    margin: 6px 0;
+  }
+  .diagram-img {
+    width: 100%;
+    max-height: 108mm;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Comparison Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0;
+    font-size: 8pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 8px;
+    text-align: left;
+  }
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+    font-size: 7.5pt;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- PÁGINA 1 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Planejamento Estratégico · Modelagem Estocástica de Longo Prazo</div>
+      </div>
+      <div class="doc-tag">PROJEÇÃO EM 12 MESES · MARKOV + MONTE CARLO</div>
+    </div>
+
+    <h1>Projeção em 12 Meses: Cadeia de Markov + Monte Carlo Explicados</h1>
+    <div class="subtitle">
+      Como a combinação da jornada do agendamento com a simulação de múltiplos cenários futuros permite planejar o faturamento, a ocupação das salas e a redução de faltas em um horizonte anual.
+    </div>
+
+    <h2>1. Por que Olhar para 12 Meses e Não Apenas para o Dia de Hoje?</h2>
+    <p>
+      Resolver o absenteísmo no dia a dia é fundamental para a recepção, mas a diretoria de uma clínica precisa de previsibilidade de longo prazo. Decisões como contratar novos médicos, expandir salas ou fechar convênios exigem saber: <b>quantas consultas serão realizadas no ano e qual será o impacto financeiro da redução de faltas?</b>
+    </p>
+
+    <h2>2. A Primeira Peça: O que é a Cadeia de Markov? (A Jornada)</h2>
+    <p>
+      A <b>Cadeia de Markov</b> é a matemática que descreve a jornada do paciente como uma sucessão de passos lógicos ao longo do tempo. Um agendamento nunca nasce e morre no mesmo instante:
+    </p>
+    <div class="card-green">
+      • <b>Estados de Passagem (Transitórios):</b> O paciente começa como <code>Agendado</code>, passa para <code>Aguardando confirmação</code> e depois para <code>Confirmado</code>.<br>
+      • <b>Estados Finais (Absorventes):</b> No dia do atendimento, há 4 desfechos possíveis: <code>Compareceu</code>, <code>Faltou</code>, <code>Cancelado</code> ou <code>Reagendado</code>.<br>
+      • <b>Janelas Temporais:</b> A chance de confirmar a 30 dias da consulta é diferente da chance a 2 dias. A cadeia mede essa evolução passo a passo.
+    </div>
+
+    <h2>3. A Regra de Ouro: Por que "Reagendar" NÃO é Cancelar?</h2>
+    <p>
+      Softwares comuns cometem um erro grave: jogam cancelamentos e reagendamentos no mesmo saco. Para a economia da clínica, eles são opostos:
+    </p>
+    <div class="grid-2">
+      <div class="col-box col-cancel">
+        <h4>❌ Cancelamento Puro</h4>
+        O paciente desiste e vai embora. A clínica perde a receita daquela consulta <b>e</b> perde o paciente do seu fluxo de tratamento contínuo.
+      </div>
+      <div class="col-box col-reschedule">
+        <h4>✅ Reagendamento Antecipado</h4>
+        O paciente avisa a tempo. A clínica <b>libera a vaga</b> de hoje para outro paciente da fila <b>e preserva a receita</b> do paciente remarcado!
+      </div>
+    </div>
+    <p>
+      A Cadeia de Markov da Vitta Care isola o reagendamento como um estado nobre. Toda a automação de WhatsApp trabalha para transformar faltas de última hora em reagendamentos úteis.
+    </p>
+
+    <h2>4. A Segunda Peça: Como o Monte Carlo Entra em 12 Meses?</h2>
+    <p>
+      A Cadeia de Markov dá as probabilidades da jornada. O <b>Monte Carlo</b> aplica essas probabilidades ao longo dos <b>próximos 12 meses</b>, simulando milhares de futuros possíveis:
+    </p>
+    <div class="card-dark">
+      <div class="formula-text">Mundo Simulado: Demanda do Mês → Capacidade Física → Desfechos Markov → Receita Real</div>
+      <div class="formula-legend">
+        <div><b>1. Demanda Mensal:</b> Simula meses de alta procura e meses mais fracos.</div>
+        <div><b>2. Teto Físico:</b> Jamais projeta mais consultas do que os médicos comportam.</div>
+        <div><b>3. Cenários Pareados:</b> Compara no mesmo mundo o cenário sem e com a Vitta Care.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Documentação de Maturidade Tecnológica TRL 5/6</span>
+    <span>Página 1 de 2</span>
+  </div>
+</div>
+
+<!-- PÁGINA 2 -->
+<div class="page">
+  <div class="content-body">
+    <div class="header">
+      <div>
+        <div class="brand-title">Vitta Care</div>
+        <div class="brand-sub">Fluxograma Operacional & Retorno Financeiro</div>
+      </div>
+      <div class="doc-tag">FLUXO E IMPACTO GERENCIAL</div>
+    </div>
+
+    <h2>5. Fluxograma do Processo: Da Jornada à Projeção Anual</h2>
+    <div class="subtitle" style="margin-bottom: 4px;">
+      Como a plataforma conecta o comportamento individual do paciente à projeção de caixa em 12 meses:
+    </div>
+
+    <div class="diagram-container">
+      <img class="diagram-img" src="../diagrams/fluxograma_projecao_12m.png" alt="Fluxograma Projeção 12 Meses Markov + Monte Carlo" />
+    </div>
+
+    <h2>6. Simulação Pareada: Como Garantir que o Ganho é Real?</h2>
+    <p>
+      Para que o relatório financeiro seja confiável para bancos, investidores e diretoria médica, o motor roda uma <b>simulação em espelho</b>:
+    </p>
+    <div class="card-highlight">
+      A simulação sorteia as condições de mercado (demanda e imprevistos) e aplica <b>exatamente as mesmas condições</b> em dois mundos simultâneos: <b>Cenário A (Baseline - Sem Vitta)</b> vs <b>Cenário B (Com Vitta Care)</b>. A diferença matemática entre os dois é o <b>ganho líquido real</b> trazido pela plataforma, sem contaminação por sorte ou ruído estatístico.
+    </div>
+
+    <h2>7. Resumo Gerencial: O que a Clínica Descobre na Projeção?</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Indicador Projetado</th>
+          <th>Cenário Baseline (Sem Vitta)</th>
+          <th>Com Vitta Care (Projetado)</th>
+          <th>Benefício Líquido Anual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Faltas Acumuladas</b></td>
+          <td>~2.400 faltas/ano</td>
+          <td>~1.680 faltas/ano</td>
+          <td><b>720 faltas evitadas</b> no ano (-30%)</td>
+        </tr>
+        <tr>
+          <td><b>Vagas Reocupadas a Tempo</b></td>
+          <td>Mínimas (perda total da vaga)</td>
+          <td>Fila ativa abastecida pelo Q<sub>25</sub></td>
+          <td><b>480 novas consultas</b> aproveitadas</td>
+        </tr>
+        <tr>
+          <td><b>Ocupação de Consultórios</b></td>
+          <td>74% da capacidade</td>
+          <td>88% da capacidade</td>
+          <td><b>+14 pontos percentuais</b> de ocupação médica</td>
+        </tr>
+        <tr>
+          <td><b>Previsibilidade de Caixa</b></td>
+          <td>Incerteza total de mês a mês</td>
+          <td>Faixas P10, P50 e P90 calibradas</td>
+          <td>Segurança para investimentos e contratações</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card-green" style="margin-top: 8px;">
+      <b>Conclusão:</b> A Cadeia de Markov entende a <i>psicologia e os passos do paciente</i>; o Monte Carlo entende a <i>incerteza do tempo e do mercado</i>. Juntos, eles transformam uma agenda desorganizada em um plano financeiro previsível, lucrativo e com médicos atendendo em sua plena capacidade.
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Vitta Care Solutions · Programa ELDORADO de Aceleração em IA</span>
+    <span>Página 2 de 2</span>
+  </div>
+</div>
+
+</body>
+</html>

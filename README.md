@@ -237,6 +237,15 @@ $$\mathcal{S} = \underbrace{\{\texttt{agendado},\, \texttt{aguardando\_confirmac
 
 > **Reagendado é estado próprio**, não cancelamento. Reagendar preserva o paciente no sistema **e** devolve a vaga; cancelar perde as duas coisas. Colapsar os dois superestima a perda e apaga exatamente o desfecho que a intervenção mais tenta produzir.
 
+> 📄 **Resumo Executivo em PDF (pronto para impressão):** [`docs/Resumo_Projecao_12_Meses_Markov_Monte_Carlo.pdf`](docs/Resumo_Projecao_12_Meses_Markov_Monte_Carlo.pdf)  
+> 📘 **Guia Didático da Projeção Anual:** [`docs/explicacao-projecao-12m.md`](docs/explicacao-projecao-12m.md)
+
+<div align="center">
+  <img src="diagrams/fluxograma_projecao_12m.png" alt="Fluxograma Projeção 12 Meses Markov + Monte Carlo" width="95%"/>
+</div>
+
+<br/>
+
 ### 5.1 Estimação com Suavização de Dirichlet
 
 A pseudo-contagem $\alpha$ não é enfeite: sem ela, um estado nunca observado produz uma linha inteira de zeros — que não é distribuição de probabilidade e quebra a simulação em silêncio.
@@ -440,6 +449,8 @@ vitta-care-trl-evidencias/
 ├── CHANGELOG.md                       # Histórico de evolução tecnológica
 │
 ├── docs/
+│   ├── Resumo_Projecao_12_Meses_Markov_Monte_Carlo.pdf # Resumo projeção 12m em PDF
+│   ├── explicacao-projecao-12m.md             # Guia didático da projeção 12m
 │   ├── Resumo_Pipeline_IA_Azure_ML.pdf        # Resumo executivo de IA em PDF
 │   ├── explicacao-pipeline-ia.md              # Guia didático do pipeline de IA
 │   ├── Resumo_Monte_Carlo_Copula_Gaussiana.pdf # Resumo executivo Monte Carlo em PDF
@@ -463,6 +474,7 @@ vitta-care-trl-evidencias/
 │   └── exemplo_resultado.json         # Resposta do motor preditivo
 │
 └── diagrams/                          # Logo, fluxos e diagramas conceituais
+    ├── fluxograma_projecao_12m.png    # Fluxograma da projeção 12 meses
     ├── fluxograma_pipeline_ia.png     # Fluxograma do pipeline de IA
     ├── fluxograma_monte_carlo.png     # Fluxograma do motor estocástico
     └── ...

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .pipeline-container {
+    width: 1140px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    padding: 28px 32px;
+    border: 1px solid #e2e8f0;
+  }
+  .title-area {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #ecfdf5;
+    color: #059669;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 22px;
+    color: #0f172a;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  /* Grid of Steps */
+  .steps-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 12px;
+    position: relative;
+  }
+  .step-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .step-number {
+    position: absolute;
+    top: -10px;
+    left: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: white;
+    font-weight: 800;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+  }
+  .step-icon {
+    font-size: 18px;
+  }
+  .step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+  }
+  .step-desc {
+    font-size: 11px;
+    color: #475569;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+  .step-box {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  /* Card Colors */
+  .card-1 { border-color: #3b82f6; }
+  .card-1 .step-number { background: #2563eb; }
+  .card-1 .step-box { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
+
+  .card-2 { border-color: #8b5cf6; }
+  .card-2 .step-number { background: #7c3aed; }
+  .card-2 .step-box { background: #f5f3ff; border: 1px solid #ddd6fe; color: #5b21b6; }
+
+  .card-3 { border-color: #f59e0b; }
+  .card-3 .step-number { background: #d97706; }
+  .card-3 .step-box { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+
+  .card-4 { border-color: #ec4899; }
+  .card-4 .step-number { background: #db2777; }
+  .card-4 .step-box { background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; }
+
+  .card-5 { border-color: #10b981; }
+  .card-5 .step-number { background: #059669; }
+  .card-5 .step-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; font-weight: 600; }
+
+  .arrow-indicator {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* Bottom Banner */
+  .bottom-banner {
+    margin-top: 18px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 10px;
+    padding: 14px 20px;
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .banner-item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .banner-title { font-size: 12px; font-weight: 700; color: #38bdf8; margin-bottom: 2px; }
+  .banner-desc { font-size: 10.5px; color: #cbd5e1; line-height: 1.35; }
+  .banner-arrow { color: #64748b; font-size: 18px; font-weight: bold; }
+
+  /* Highlights */
+  .highlights-row {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .hl-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .hl-box h4 {
+    font-size: 12px;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hl-box p {
+    font-size: 10.5px;
+    color: #64748b;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="pipeline-container">
+  <div class="title-area">
+    <div class="badge">Vitta Care · Planejamento Estratégico</div>
+    <h1>Projeção em 12 Meses: Cadeia de Markov + Monte Carlo</h1>
+    <p class="subtitle">Como a jornada do agendamento e a simulação de múltiplos futuros projetam a recuperação financeira da clínica</p>
+  </div>
+
+  <div class="steps-row">
+    <!-- Passo 1 -->
+    <div class="step-card card-1">
+      <div class="step-number">1</div>
+      <div class="step-header">
+        <span class="step-icon">🔄</span>
+        <div class="step-title">Cadeia de Markov</div>
+      </div>
+      <div class="step-desc">
+        Modela os <b>passos reais</b> que um paciente dá desde o agendamento até a consulta, através de 7 estados possíveis.
+      </div>
+      <div class="step-box">
+        • Agendado ➔ Aguardando<br>
+        • Aguardando ➔ Confirmado<br>
+        • Desfechos: Compareceu, Faltou, Cancelou ou <b>Reagendou</b>
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 2 -->
+    <div class="step-card card-2">
+      <div class="step-number">2</div>
+      <div class="step-header">
+        <span class="step-icon">💬</span>
+        <div class="step-title">A Intervenção Vitta</div>
+      </div>
+      <div class="step-desc">
+        Lembretes inteligentes no WhatsApp reduzem faltas e estimulam o <b>reagendamento antecipado</b>, devolvendo a vaga à clínica.
+      </div>
+      <div class="step-box">
+        • Redução de falta: -20%<br>
+        • Vaga liberada volta à agenda<br>
+        • Paciente não é perdido<br>
+        • Cadeia absorve o ganho
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 3 -->
+    <div class="step-card card-3">
+      <div class="step-number">3</div>
+      <div class="step-header">
+        <span class="step-icon">🎲</span>
+        <div class="step-title">Monte Carlo (12 Meses)</div>
+      </div>
+      <div class="step-desc">
+        O computador simula os próximos <b>12 meses</b> milhares de vezes, testando meses de alta e baixa demanda.
+      </div>
+      <div class="step-box">
+        • Simula mês a mês (M1..M12)<br>
+        • Flutuações de demanda<br>
+        • Respeita capacidade máxima<br>
+        • Incerteza realista de mercado
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 4 -->
+    <div class="step-card card-4">
+      <div class="step-number">4</div>
+      <div class="step-header">
+        <span class="step-icon">⚖️</span>
+        <div class="step-title">Cenários Pareados</div>
+      </div>
+      <div class="step-desc">
+        Compara no <b>mesmo mundo simulado</b> o que aconteceria com e sem a plataforma Vitta Care.
+      </div>
+      <div class="step-box">
+        • <b>Cenário A:</b> Baseline (sem Vitta)<br>
+        • <b>Cenário B:</b> Com Agenda Vitta<br>
+        • Diferença = Ganho Real<br>
+        • Elimina ruído estatístico
+      </div>
+    </div>
+
+    <div class="arrow-indicator">➔</div>
+
+    <!-- Passo 5 -->
+    <div class="step-card card-5">
+      <div class="step-number">5</div>
+      <div class="step-header">
+        <span class="step-icon">💰</span>
+        <div class="step-title">Impacto Financeiro</div>
+      </div>
+      <div class="step-desc">
+        Calcula a receita recuperada defensável e projeta o retorno financeiro com margens de confiança (P10, P50, P90).
+      </div>
+      <div class="step-box">
+        ✓ Faltas evitadas em 1 ano<br>
+        ✓ Vagas reocupadas a tempo<br>
+        ✓ Receita incremental real<br>
+        ✓ Previsibilidade de caixa
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Banner -->
+  <div class="bottom-banner">
+    <div class="banner-item">
+      <div class="banner-title">1. Cadeia de Markov (A Jornada)</div>
+      <div class="banner-desc">Calcula a probabilidade de um paciente ir da confirmação ao comparecimento ou cancelamento com antecedência.</div>
+    </div>
+    <div class="banner-arrow">➔</div>
+    <div class="banner-item">
+      <div class="banner-title">2. Monte Carlo (O Tempo)</div>
+      <div class="banner-desc">Aplica essa jornada em 12 meses futuros, simulando variações de sazonalidade e limites de consultório.</div>
+    </div>
+    <div class="banner-arrow">➔</div>
+    <div class="banner-item">
+      <div class="banner-title">3. Decisão Gerencial (O Lucro)</div>
+      <div class="banner-desc">O gestor sabe com 90% de confiança quanto vai faturar a mais e quantas faltas deixará de ter no ano.</div>
+    </div>
+  </div>
+
+  <!-- Highlights -->
+  <div class="highlights-row">
+    <div class="hl-box">
+      <h4>📍 Reagendar não é Cancelar</h4>
+      <p>Cancelar perde a receita e o paciente. Reagendar devolve a vaga para a recepção e mantém o paciente em tratamento. A Cadeia de Markov trata os dois separadamente.</p>
+    </div>
+    <div class="hl-box">
+      <h4>🛡️ Teto Físico de Capacidade</h4>
+      <p>A simulação nunca projeta mais consultas do que os médicos conseguem atender. A capacidade física dos consultórios é uma barreira rígida.</p>
+    </div>
+    <div class="hl-box">
+      <h4>📊 Margem Segura (P10 / P50 / P90)</h4>
+      <p>Não entrega um número mágico único. Mostra o cenário pessimista (P10), o mais provável (P50) e o otimista (P90), protegendo o planejamento financeiro da clínica.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
