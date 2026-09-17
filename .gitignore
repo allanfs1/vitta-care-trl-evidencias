@@ -1,0 +1,23 @@
+# Ambientes e segredos
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+serviceAccount.json
+firebase-adminsdk*.json
+secrets/
+private/
+dados_reais/
+datasets_producao/
+
+# Arquivos de sistema e SO
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Caches e logs
+*.log
+.cache/
+tmp/
+scratch/

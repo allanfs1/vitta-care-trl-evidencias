@@ -1,0 +1,30 @@
+{
+  "agendamento_id": "ag_98421_anon",
+  "probabilidade_falta": 0.742,
+  "classificacao_risco": "ALTO_RISCO",
+  "intervalo_confianca_95": [0.685, 0.799],
+  "fatores_principais": [
+    {
+      "feature": "dias_antecedencia",
+      "impacto_shap": "+0.21",
+      "descricao": "Agendamento feito com mais de 10 dias de antecedencia"
+    },
+    {
+      "feature": "taxa_hist_falta",
+      "impacto_shap": "+0.18",
+      "descricao": "Historico previo de faltas superior a 25%"
+    },
+    {
+      "feature": "lembrete_confirmado",
+      "impacto_shap": "+0.12",
+      "descricao": "Sem confirmacao ativa pelo canal WhatsApp"
+    }
+  ],
+  "acoes_recomendadas": [
+    "Disparar regua de confirmacao ativa via WhatsApp com botao rapido",
+    "Habilitar overbooking seguro (slot reserva) com margem estocastica",
+    "Sinalizar alerta visual no painel da recepcao"
+  ],
+  "timestamp_inferencia": "2026-09-17T10:15:00Z",
+  "versao_modelo": "vitta-absenteismo-v2.1"
+}

@@ -1,653 +1,355 @@
-Vitta Care — Estrutura de Evidências de Desenvolvimento Tecnológico
-> **Objetivo deste repositório:** reunir evidências técnicas do desenvolvimento da plataforma Vitta Care para apoiar a comprovação de maturidade tecnológica da solução, especialmente no contexto do Programa ELDORADO de Aceleração Tecnológica em IA para Startups.
+<div align="center">
+
+# Vitta Care — Plataforma de IA para Predição e Redução de Absenteísmo em Saúde
+### Repositório Oficial de Evidências de Desenvolvimento Tecnológico (TRL 5/6)
+
+[![TRL](https://img.shields.io/badge/TRL-5%2F6%20(Prot%C3%B3tipo%20Operacional)-brightgreen.svg)](#-prontid%C3%A3o-tecnol%C3%B3gica-trl-56)
+[![Flutter](https://img.shields.io/badge/Frontend-Flutter%203.x%20Web%2FMobile-02569B.svg?logo=flutter)](https://flutter.dev)
+[![Python](https://img.shields.io/badge/AI%2FData%20Science-Python%20%7C%20Scikit--Learn%20%7C%20XGBoost-3776AB.svg?logo=python)](https://python.org)
+[![Firebase](https://img.shields.io/badge/Backend-Firebase%20%7C%20Cloud%20Services-FFCA28.svg?logo=firebase)](https://firebase.google.com)
+[![LGPD](https://img.shields.io/badge/Privacy-LGPD%20%26%20HIPAA%20Compliant%20(PHI%20Guard)-blue.svg)](#-privacidade-lgpd-e-propriedade-intelectual)
+[![Programa Eldorado](https://img.shields.io/badge/Programa-ELDORADO%20IA%20para%20Startups-orange.svg)](#-programa-eldorado-de-acelera%C3%A7%C3%A3o-tecnol%C3%B3gica)
+
+<br/>
+
+<img src="diagrams/logo.png" alt="Vitta Care Logo" width="280"/>
+
+<p align="center">
+  <b>VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)</b><br/>
+  <i>Inteligência Artificial preditiva, modelagem estocástica de Monte Carlo, cadeias de Markov e automação para otimização de capacidade assistencial em saúde pública e privada.</i>
+</p>
+
+---
+
+</div>
+
+> **Objetivo deste Repositório:** Reunir e estruturar as **evidências técnicas e arquiteturais do desenvolvimento da plataforma Vitta Care** para comprovação de maturidade tecnológica (**TRL 5/6**), com foco na submissão e acompanhamento no **Programa ELDORADO de Aceleração Tecnológica em IA para Startups**.
 >
-> Este repositório deve concentrar **evidências de desenvolvimento tecnológico**. Evidências institucionais, cartas de intenção, fotos de eventos, registros de validação externa e outros documentos devem permanecer no Google Drive da startup.
+> 🔒 **Nota de Conformidade:** Este repositório concentra **estritamente documentação técnica, artefatos arquiteturais, exemplos anonimizados e registros visuais de funcionamento**. Dados pessoais de pacientes, credenciais sensíveis e contratos institucionais são mantidos sob custódia segura e restrita.
+
 ---
-1. Estrutura recomendada do repositório
-```text
-vitta-care-evidencias-desenvolvimento/
-│
-├── README.md
-├── CHANGELOG.md
-├── LICENSE.md                     # opcional
-│
-├── docs/
-│   ├── arquitetura.md
-│   ├── modelo-preditivo.md
-│   ├── pipeline-dados.md
-│   ├── integracoes.md
-│   ├── testes-validacao.md
-│   └── evolucao-tecnologica.md
-│
-├── evidencias/
-│   ├── screenshots/
-│   ├── dashboards/
-│   ├── modelo-ia/
-│   └── testes/
-│
-├── exemplos/
-│   ├── exemplo_dados_anonimizados.csv
-│   ├── exemplo_inferencia.json
-│   └── exemplo_resultado.json
-│
-└── diagrams/
-    ├── arquitetura-vitta-care.png
-    ├── fluxo-ia.png
-    └── pipeline-inferencia.png
-```
+
+## 📑 Sumário
+
+1. [Visão Geral e Problema Tecnológico](#-visão-geral-e-problema-tecnológico)
+2. [Solução Vitta Care e Escopo Técnico Implementado](#-solução-vitta-care-e-escopo-técnico-implementado)
+3. [Galeria de Evidências Visuais da Aplicação](#-galeria-de-evidências-visuais-da-aplicação)
+4. [Arquitetura da Solução e Grafo Modular](#-arquitetura-da-solução-e-grafo-modular)
+5. [Modelos de IA e Formulação Matemática](#-modelos-de-ia-e-formulação-matemática)
+6. [Pipeline de Dados e Anonimização (PHI Guard)](#-pipeline-de-dados-e-anonimização-phi-guard)
+7. [Matriz de Integrações e Testes de Validação](#-matriz-de-integrações-e-testes-de-validação)
+8. [Prontidão Tecnológica (TRL 5/6) e Desafios ELDORADO](#-prontidão-tecnológica-trl-56-e-desafios-eldorado)
+9. [Estrutura do Repositório](#-estrutura-do-repositório)
+10. [Privacidade, LGPD e Propriedade Intelectual](#-privacidade-lgpd-e-propriedade-intelectual)
+11. [Links e Evidências Externas](#-links-e-evidências-externas)
+
 ---
-2. README principal
-Vitta Care — Plataforma de IA para Predição e Redução de Absenteísmo em Saúde
-A Vitta Care é uma healthtech que desenvolve uma plataforma de Inteligência Artificial aplicada à gestão de serviços de saúde, com foco na predição e redução do absenteísmo em consultas, otimização de agendas, automação da comunicação com pacientes e melhor utilização da capacidade assistencial.
-Este repositório reúne evidências técnicas do desenvolvimento da solução, incluindo arquitetura, componentes implementados, pipeline de dados, modelo preditivo, integrações, testes, exemplos anonimizados e histórico de evolução tecnológica.
-As evidências institucionais e de validação externa — como cartas de intenção, registros de participação em eventos, demonstrações para gestores e documentos de piloto — são mantidas separadamente no repositório documental da startup.
+
+## 🩺 Visão Geral e Problema Tecnológico
+
+O **absenteísmo de pacientes em consultas médicas (no-show)** é uma das maiores fontes de ineficiência nos sistemas de saúde do Brasil e do mundo:
+
+- **Perda Crítica de Capacidade:** Taxas médias de falta variam entre 20% e 40% tanto na rede pública (SUS/UBS) quanto no setor suplementar.
+- **Danos Financeiros e Operacionais:** Horas ociosas de médicos especialistas, equipamentos subutilizados e aumento desproporcional nas filas de espera.
+- **Limitação das Abordagens Tradicionais:** Métodos convencionais atuam de forma meramente reativa (lembretes manuais não segmentados ou cancelamentos tardios que não permitem o preenchimento da vaga).
+
+### A Abordagem da Vitta Care
+
+A **Vitta Care** atua de forma preditiva e estocástica:
+1. **Antecipa o risco de falta** individual com dias de antecedência por meio de modelos preditivos supervisionados calibrados.
+2. **Modela a dinâmica da jornada** da consulta através de **Cadeias de Markov** com estados absorventes.
+3. **Calcula o overbooking ótimo seguro** utilizando **Simulações de Monte Carlo** (com propagação de incerteza tripla: forecast WAPE, incerteza de parâmetros via distribuição Beta e incerteza amostral multinomial).
+4. **Executa ações preventivas automatizadas** via régua multicanal WhatsApp com confirmação rápida e encaixe automático de pacientes em fila de espera.
+
 ---
-3. Problema tecnológico
-O absenteísmo em consultas médicas gera:
-perda de capacidade assistencial;
-aumento de filas de espera;
-ociosidade de profissionais;
-perda de receita em instituições privadas;
-desperdício de recursos em instituições públicas;
-dificuldade de reaproveitamento de vagas canceladas ou não utilizadas.
-Grande parte das soluções existentes atua de forma reativa, utilizando lembretes padronizados, confirmações manuais ou reagendamentos após o cancelamento.
-A proposta da Vitta Care é utilizar Inteligência Artificial e ciência de dados para antecipar o risco de ausência, permitindo que ações preventivas sejam executadas antes que a falta ocorra.
+
+## 🚀 Solução Vitta Care e Escopo Técnico Implementado
+
+Todas as funcionalidades listadas abaixo encontram-se **implementadas e validadas em ambiente operacional e laboratorial** na base do projeto:
+
+| Componente / Módulo | Estado de Desenvolvimento | Descrição Técnica |
+| :--- | :---: | :--- |
+| **Plataforma Web/Mobile Multi-Tenant** | `Implementado` | Frontend Flutter 3 com 28 módulos mapeados, reatividade Riverpod e roteamento dinâmico GoRouter. |
+| **Modelo Preditivo de No-Show** | `Implementado` | Classificador probabilístico (Scikit-Learn/XGBoost) com cálculo de SHAP values para explicabilidade clínica. |
+| **Simulador de Monte Carlo** | `Implementado` | Motor estocástico com 10.000 iterações, propagando incerteza preditiva, paramétrica e amostral. |
+| **Modelagem por Cadeias de Markov** | `Implementado` | Matriz de transição de estados com regularização de Dirichlet (Laplace) e tratamento de estados absorventes. |
+| **Monitor de Atendimento em Tempo Real** | `Implementado` | Painel de chamada de recepção física com sinalização sonora e sincronização via WebSockets/Streams. |
+| **Totem de Autoatendimento** | `Implementado` | Interface dedicada para check-in autônomo e emissão de senhas prioritárias/normais (`/#/totem`). |
+| **Automação de Mensageria (WhatsApp)** | `Implementado` | Integração de envio de lembretes ativos com botões interativos e atualização em 1 clique. |
+| **Health Score do Paciente** | `Implementado` | Algoritmo de engajamento do paciente correlacionando adesão ao tratamento e pontualidade histórica. |
+| **IA Médica & PubMed (E-Utilities)** | `Implementado` | Mecanismo de busca e sintetização de evidências científicas com sanitização estrita de dados clínicos. |
+| **Módulo PHI Guard (LGPD/HIPAA)** | `Implementado` | Mecanismo de desidentificação de dados sensíveis na borda (*edge*) antes de inferências ou persistência. |
+| **Grafo Modular e DAG de Dependências** | `Implementado` | Motor de ordenação topológica que permite habilitar/desabilitar subsistemas sem quebrar a aplicação. |
+
 ---
-4. O que já foi desenvolvido
-Registrar nesta seção apenas funcionalidades que já existam de fato.
-Exemplo:
-Plataforma para gestão de agendamentos;
-Estrutura de cadastro e acompanhamento de consultas;
-Pipeline inicial de preparação de dados;
-Tratamento e transformação de dados históricos;
-Engenharia de atributos para Machine Learning;
-Modelo preditivo inicial para identificação de risco de ausência;
-Geração de probabilidade de no-show;
-Classificação de risco;
-Dashboard de acompanhamento;
-Integração entre dados de agendamento e camada de Inteligência Artificial;
-Estrutura para automação de confirmações e comunicação;
-Integrações com serviços externos;
-Testes do modelo utilizando dados históricos;
-Arquitetura preparada para evolução da inferência em nuvem.
-> **Importante:** não declare como implementado algo que ainda esteja somente planejado.
+
+## 📸 Galeria de Evidências Visuais da Aplicação
+
+As imagens abaixo foram capturadas diretamente da aplicação em execução, comprovando o funcionamento ponta-a-ponta dos módulos da plataforma:
+
+### 1. Painel Principal & Indicadores Operacionais
+> **Figura 01 — Dashboard Central da Vitta Care.**  
+> Monitoramento em tempo real de taxas de ocupação, consultas confirmadas, receita recuperável, previsão de faltas e índices de absenteísmo por especialidade.
+<div align="center">
+  <img src="evidencias/dashboards/02_home_dashboard.png" alt="Dashboard Principal" width="90%"/>
+</div>
+
 ---
-5. Arquitetura da solução
-Arquivo recomendado:
-```text
-docs/arquitetura.md
-```
-Descrever os principais componentes tecnológicos.
-Exemplo de fluxo:
-```text
-Paciente / Agendamento
-        ↓
-Coleta de dados
-        ↓
-Preparação e tratamento
-        ↓
-Feature Engineering
-        ↓
-Modelo de Machine Learning
-        ↓
-Probabilidade de ausência
-        ↓
-Classificação de risco
-        ↓
-Motor de decisão
-        ↓
-Ações preventivas
-        ↓
-Confirmação / Reagendamento / Reaproveitamento de vaga
-        ↓
-Dashboard e acompanhamento
-```
-Adicionar também a imagem:
-```text
-diagrams/arquitetura-vitta-care.png
-```
-Componentes que podem ser documentados
-Front-end da plataforma;
-Back-end;
-Banco de dados;
-Serviços de autenticação;
-Pipeline de dados;
-Modelo de IA;
-API de inferência;
-Motor de automação;
-Integrações de comunicação;
-Monitoramento;
-Segurança e auditoria.
+
+### 2. Motor de Inteligência Artificial para Predição de Absenteísmo
+> **Figura 02 — Módulo Preditivo de No-Show e Análise de Risco.**  
+> Inferência probabilística individualizada por agendamento, estratificação de risco (Baixo, Médio, Alto) e detalhamento dos fatores de maior impacto via explicabilidade algorítmica.
+<div align="center">
+  <img src="evidencias/modelo-ia/04_absenteismo_predicao_ia.png" alt="Predição de Absenteísmo" width="90%"/>
+</div>
+
 ---
-6. Modelo Preditivo de Absenteísmo
-Arquivo recomendado:
-```text
-docs/modelo-preditivo.md
+
+### 3. Simulador Estocástico de Monte Carlo para Dimensionamento de Agendas
+> **Figura 03 — Simulador de Monte Carlo e Análise de Incertezas.**  
+> Parametrização de 10.000 iterações com propagação de incerteza de forecast (WAPE), taxa histórica e distribuição multinomial para determinação da taxa de overbooking defensável sem atrasos.
+<div align="center">
+  <img src="evidencias/modelo-ia/05_simulador_monte_carlo.png" alt="Simulador de Monte Carlo" width="90%"/>
+</div>
+
+---
+
+### 4. Projeção Operacional e Financeira em 12 Meses
+> **Figura 04 — Módulo de Projeção em 12 Meses.**  
+> Decomposição do ganho real versus antecipação de demanda, com estimativa de impacto na receita e capacidade assistencial acumulada ao longo do ano.
+<div align="center">
+  <img src="evidencias/dashboards/06_projecao_12_meses.png" alt="Projeção 12 Meses" width="90%"/>
+</div>
+
+---
+
+### 5. Gestão de Agendamentos & Agenda Médica Integrada
+> **Figura 05 — Grade de Agendamentos e Atendimentos.**  
+> Interface unificada com marcação de consultas, identificação de alertas de risco preditivo e controle de comparecimento.
+<div align="center">
+  <img src="evidencias/screenshots/03_agenda_medica.png" alt="Agenda Médica" width="90%"/>
+</div>
+
+---
+
+### 6. Recepção, Triagem e Monitor em Tempo Real
+> **Figura 06 — Fila Geral da Recepção e Painel de Monitor de TV.**  
+> Controle de fluxo presencial de pacientes, categorização por triagem e visualizador em tela cheia para salas de espera.
+<div align="center">
+  <img src="evidencias/screenshots/07_recepcao_fila.png" alt="Recepção e Fila" width="48%"/>
+  <img src="evidencias/dashboards/08_monitor_recepcao.png" alt="Monitor de Recepção" width="48%"/>
+</div>
+
+---
+
+### 7. Health Score do Paciente e Automação de Comunicação
+> **Figura 07 — Health Score e Régua de Disparos WhatsApp.**  
+> Indicadores de histórico de engajamento do paciente e configuração da régua automática de confirmações com respostas bidirecionais.
+<div align="center">
+  <img src="evidencias/dashboards/09_health_score_pacientes.png" alt="Health Score" width="48%"/>
+  <img src="evidencias/screenshots/10_automacao_whatsapp.png" alt="Automação WhatsApp" width="48%"/>
+</div>
+
+---
+
+### 8. Arquitetura Modular e Validação de Dependências (DAG)
+> **Figura 08 — Mapa de Módulos e Ordenação Topológica.**  
+> Sistema de governança de código e integridade da arquitetura, demonstrando 28 módulos isolados com resolução acíclica de dependências.
+<div align="center">
+  <img src="evidencias/screenshots/11_mapa_arquitetura_modulos.png" alt="Mapa de Arquitetura" width="90%"/>
+</div>
+
+---
+
+## 🏗 Arquitetura da Solução e Grafo Modular
+
+A arquitetura da Vitta Care é orientada a microsserviços desacoplados e reatividade em tempo real:
+
+```mermaid
+flowchart LR
+    subgraph Frontend["Frontend Multi-Tenant (Flutter)"]
+        F1[Painel Web Gestor]
+        F2[Monitor Recepção]
+        F3[Totem Autoatendimento]
+    end
+
+    subgraph Core["Core Application Layer"]
+        G1[ModuleGraph / DAG Validation]
+        G2[State Management - Riverpod]
+        G3[Deep Linking - GoRouter]
+    end
+
+    subgraph Data["Camada de Dados & Segurança"]
+        D1[(Cloud Firestore / PostgreSQL)]
+        D2[PHI Guard - Desidentificação]
+        D3[Firebase Auth / RBAC]
+    end
+
+    subgraph AI["Camada de Inteligência Artificial"]
+        M1[Modelo Preditivo No-Show]
+        M2[Cadeia de Markov]
+        M3[Simulador Monte Carlo]
+        M4[IA Médica PubMed]
+    end
+
+    Frontend --> Core
+    Core --> Data
+    Data --> AI
+    AI --> Core
 ```
-Objetivo
-O modelo preditivo tem como objetivo estimar a probabilidade de ausência associada a cada agendamento.
-A previsão pode ser utilizada pelo sistema para direcionar ações preventivas e priorizar pacientes com maior probabilidade de falta.
-Exemplo de variáveis
-Utilizar somente variáveis efetivamente usadas no projeto.
-Exemplos:
-```text
-dias_antecedencia
-distancia_km
-consultas_30d
-taxa_hist
-lembrete
-feriado
-is_weekend
-periodo
-idade
-historico_faltas
-```
-Exemplo simplificado de código
-> O exemplo abaixo deve ser apenas demonstrativo. Não é necessário publicar o código proprietário completo.
+
+Para a documentação completa dos componentes técnicos e do grafo de dependências, consulte:
+📖 [docs/arquitetura.md](docs/arquitetura.md)
+
+---
+
+## 🧠 Modelos de IA e Formulação Matemática
+
+### 1. Inferência Supervisionada de No-Show
+A probabilidade de falta é estimada através de modelos de árvore de decisão com gradiente impulsionado (**XGBoost / LightGBM**) treinados sobre atributos históricos e contextuais:
+
+$$P(\text{No-Show} = 1 \mid \mathbf{x}) = \sigma\left(\sum_{k=1}^K f_k(\mathbf{x})\right)$$
+
+Com atributos-chave:
+- `dias_antecedencia`: Janela temporal entre a solicitação e o horário da consulta.
+- `taxa_hist`: Frequência observada de faltas nos últimos 12 meses.
+- `distancia_km`: Proximidade física da residência até o ponto de atendimento.
+- `lembrete`: Confirmação ou ausência de interação na régua de mensageria.
+
+### 2. Modelagem Estocástica por Cadeias de Markov
+A consulta progride através do espaço de estados:
+
+$$\mathcal{S} = \{\text{agendado}, \text{aguardando\_confirmacao}, \text{confirmado}, \text{compareceu}, \text{faltou}, \text{cancelado}, \text{reagendado}\}$$
+
+Com estimação de transições vetorizada e regularização de Laplace Dirichlet:
+
 ```python
-features = [
-    "dias_antecedencia",
-    "distancia_km",
-    "consultas_30d",
-    "taxa_hist",
-    "lembrete",
-    "feriado",
-    "is_weekend"
-]
+counts = pd.crosstab(origem[val], destino[val]).reindex(index=STATES, columns=STATES, fill_value=0)
+counts += alpha  # Suavização de Dirichlet para evitar probabilidades zero
+P = counts.div(counts.sum(axis=1), axis=0)
+```
 
-probabilidade = modelo.predict_proba(dados[features])[:, 1]
-```
-Resultado esperado
-A saída da inferência pode ser convertida em uma classificação operacional de risco.
-Exemplo:
-```json
-{
-  "probabilidade_falta": 0.73,
-  "classificacao": "RISCO_ELEVADO"
-}
-```
----
-7. Pipeline de dados
-Arquivo recomendado:
-```text
-docs/pipeline-dados.md
-```
-Estrutura sugerida:
-```text
-Dados históricos
-      ↓
-Validação dos registros
-      ↓
-Limpeza
-      ↓
-Tratamento de valores ausentes
-      ↓
-Normalização / transformação
-      ↓
-Feature Engineering
-      ↓
-Separação de treino e teste
-      ↓
-Treinamento
-      ↓
-Avaliação
-      ↓
-Modelo versionado
-      ↓
-Inferência
-```
-Documentar:
-origem dos dados;
-período analisado;
-quantidade aproximada de registros;
-processo de anonimização;
-tratamento de campos inconsistentes;
-criação das features;
-separação de treino e validação;
-métricas avaliadas;
-versionamento do modelo.
-> Não publicar dados pessoais ou informações que permitam identificar pacientes.
----
-8. Exemplos anonimizados
-Pasta recomendada:
-```text
-exemplos/
-```
-Exemplo de entrada
-Arquivo:
-```text
-exemplo_inferencia.json
-```
-Conteúdo:
-```json
-{
-  "dias_antecedencia": 14,
-  "consultas_30d": 3,
-  "taxa_hist": 0.27,
-  "lembrete": true,
-  "feriado": false,
-  "is_weekend": false
-}
-```
-Exemplo de saída
-Arquivo:
-```text
-exemplo_resultado.json
-```
-Conteúdo:
-```json
-{
-  "probabilidade_falta": 0.73,
-  "classificacao": "RISCO_ELEVADO"
-}
-```
-Dataset demonstrativo
-Arquivo:
-```text
-exemplo_dados_anonimizados.csv
-```
-Utilizar apenas:
-dados sintéticos;
-dados anonimizados;
-exemplos sem qualquer identificador pessoal;
-dados sem CPF, nome, telefone, e-mail ou qualquer informação sensível.
----
-9. Evidências visuais de desenvolvimento
-Pasta:
-```text
-evidencias/
-```
-9.1 Screenshots
-```text
-evidencias/screenshots/
-```
-Sugestões:
-tela de login;
-agenda;
-painel administrativo;
-cadastro de agendamento;
-classificação de risco;
-confirmação de consulta;
-reagendamento;
-fila de espera;
-automações;
-telas da versão atual da plataforma.
-Cada imagem deve possuir uma descrição curta.
-Exemplo:
-> **Figura 01 — Dashboard da plataforma Vitta Care.**  
-> Tela utilizada para acompanhamento dos agendamentos e indicadores operacionais da instituição.
----
-9.2 Dashboards
-```text
-evidencias/dashboards/
-```
-Podem ser apresentados:
-número de consultas;
-agendamentos confirmados;
-faltas;
-cancelamentos;
-taxa de ocupação;
-classificação de risco;
-indicadores do modelo;
-resultados de simulações.
----
-9.3 Evidências do modelo de IA
-```text
-evidencias/modelo-ia/
-```
-Podem incluir:
-prints do treinamento;
-gráficos de métricas;
-matriz de confusão;
-ROC;
-feature importance;
-exemplos de inferência;
-versões do modelo;
-registros do ambiente de Machine Learning.
-Somente incluir métricas realmente obtidas durante o desenvolvimento.
----
-9.4 Testes
-```text
-evidencias/testes/
-```
-Registrar:
-testes funcionais;
-testes de API;
-respostas de endpoints;
-testes de integração;
-logs anonimizados;
-testes do pipeline;
-testes de inferência.
----
-10. Integrações
-Arquivo:
-```text
-docs/integracoes.md
-```
-Documentar apenas integrações existentes ou efetivamente testadas.
-Exemplos:
-serviços de comunicação;
-WhatsApp;
-SMS;
-e-mail;
-APIs;
-banco de dados;
-ferramentas de automação;
-serviços em nuvem;
-autenticação;
-Machine Learning.
-Para cada integração, registrar:
-```text
-Nome:
-Objetivo:
-Status:
-Forma de integração:
-Resultado obtido:
-Próxima evolução:
-```
----
-11. Testes e validação tecnológica
-Arquivo:
-```text
-docs/testes-validacao.md
-```
-Estrutura sugerida:
-Teste 01 — Pipeline de dados
-Objetivo: validar processamento dos registros.
-Entrada: dataset de teste.
-Resultado: dados processados e preparados para o modelo.
-Status: concluído / parcial / em evolução.
----
-Teste 02 — Inferência
-Objetivo: verificar geração da probabilidade de ausência.
-Entrada: dados anonimizados de um agendamento.
-Resultado: probabilidade e classificação de risco.
----
-Teste 03 — Integração
-Objetivo: validar comunicação entre plataforma e componente de IA.
-Resultado esperado: previsão retornada e associada ao agendamento correspondente.
----
-12. Evolução tecnológica
-Arquivo:
-```text
-docs/evolucao-tecnologica.md
-```
-Esta seção é importante para demonstrar que a solução já existe, mas ainda possui desafios tecnológicos relevantes.
-Modelo de texto:
-> A primeira versão da Vitta Care permitiu validar os principais componentes da solução, incluindo preparação de dados, treinamento do modelo preditivo, geração de estimativas de risco e integração inicial com a plataforma.
->
-> A próxima etapa de evolução tecnológica busca aumentar a robustez, escalabilidade, segurança, capacidade de integração, monitoramento e desempenho da solução, além de ampliar a validação em ambiente operacional relevante.
->
-> Os desafios tecnológicos incluem evolução dos modelos de Inteligência Artificial, engenharia de dados, arquitetura de software, MLOps, explicabilidade, segurança da informação, interoperabilidade e validação em escala.
----
-13. Desafios tecnológicos para a próxima etapa
-Exemplos de desafios que podem ser apresentados ao ELDORADO:
-evolução do modelo preditivo;
-comparação entre diferentes algoritmos;
-melhoria da qualidade e robustez das features;
-explicabilidade das previsões;
-monitoramento de drift;
-reprocessamento e retreinamento;
-arquitetura de inferência escalável;
-versionamento de modelos;
-MLOps;
-segurança;
-observabilidade;
-integração com múltiplas instituições;
-arquitetura multi-tenant;
-interoperabilidade;
-desempenho;
-validação tecnológica em ambiente relevante;
-testes de escalabilidade.
----
-14. Histórico de evolução — CHANGELOG
-Arquivo:
-```text
-CHANGELOG.md
-```
-Modelo:
-```markdown
-# Histórico de Evolução Tecnológica
+### 3. Simulação de Monte Carlo
+Dimensionamento estocástico de risco que propaga conjuntamente:
+1. Incerteza da demanda futura: $N \sim \text{Lognormal}(\mu, \sigma_{\text{WAPE}})$.
+2. Incerteza do parâmetro de probabilidade: $p \sim \text{Beta}(a, b)$.
+3. Incerteza amostral finita: $\mathbf{Y} \sim \text{Multinomial}(N, [p_{\text{comp}}, p_{\text{falta}}, p_{\text{canc}}])$.
 
-## Versão 0.1
-- Estrutura inicial da plataforma;
-- Cadastro e gerenciamento de agendamentos;
-- Primeiras telas operacionais.
+Para mais detalhes e formulações matemáticas completas, consulte:
+📖 [docs/modelo-preditivo.md](docs/modelo-preditivo.md)
 
-## Versão 0.2
-- Pipeline inicial de dados;
-- Limpeza e preparação dos registros;
-- Desenvolvimento inicial do modelo preditivo.
-
-## Versão 0.3
-- Integração das previsões à plataforma;
-- Classificação de risco;
-- Desenvolvimento de dashboards.
-
-## Versão 0.4
-- Evolução das automações;
-- Melhorias na arquitetura;
-- Integrações;
-- Preparação para validação tecnológica ampliada.
-
-## Próxima etapa
-- Modelo preditivo v2;
-- Arquitetura de inferência escalável;
-- Engenharia de dados;
-- MLOps;
-- Segurança;
-- Monitoramento;
-- Validação ampliada em ambiente operacional.
-```
-Adapte as versões ao histórico real da Vitta Care.
 ---
-15. Privacidade, LGPD e propriedade intelectual
-Adicionar ao README:
-> ## Privacidade e propriedade intelectual
->
-> Por se tratar de uma plataforma aplicada ao setor de saúde, este repositório possui finalidade exclusivamente demonstrativa e documental.
->
-> São disponibilizados somente materiais técnicos não sensíveis, documentação, exemplos anonimizados, diagramas, evidências de desenvolvimento e componentes demonstrativos.
->
-> Não são disponibilizados publicamente:
->
-> - dados pessoais de pacientes;
-> - dados pessoais sensíveis;
-> - bases de produção;
-> - credenciais;
-> - chaves de API;
-> - tokens;
-> - arquivos `.env`;
-> - senhas;
-> - segredos de infraestrutura;
-> - código proprietário considerado estratégico;
-> - informações protegidas por confidencialidade.
->
-> Exemplos de dados são sintéticos ou anonimizados.
----
-16. Segurança do repositório
-Antes de tornar o repositório público, verificar se os seguintes arquivos estão no `.gitignore`:
-```gitignore
-.env
-.env.*
-*.key
-*.pem
-credentials.json
-serviceAccount.json
-firebase-adminsdk*.json
-secrets/
-private/
-dados_reais/
-datasets_producao/
-```
-Nunca publicar:
+
+## 🔬 Pipeline de Dados e Anonimização (PHI Guard)
+
+O pipeline de dados opera com estrita segregação analítica e sanitização de dados no lado do cliente (*client-side filtering*):
+
 ```text
-API_KEY
-OPENAI_API_KEY
-AZURE_KEY
-DATABASE_PASSWORD
-FIREBASE_PRIVATE_KEY
-JWT_SECRET
-ZAPI_TOKEN
-SMTP_PASSWORD
+[ Agendamento Criado ]
+         │
+         ▼
+[ PHI Guard Interceptor ] ───(Exclusão de CPF, Nomes e Telefones)
+         │
+         ▼
+[ Feature Engineering ] ────(Cálculo de Distâncias e Intervalos)
+         │
+         ▼
+[ Inferência do Modelo ] ───(Geração de Probabilidade e SHAP)
+         │
+         ▼
+[ Painel de Gestão ] ───────(Apresentação de Ações Recomendadas)
 ```
+
+Consulte as especificações do fluxo em:
+📖 [docs/pipeline-dados.md](docs/pipeline-dados.md)
+
 ---
-17. Separação entre GitHub e Google Drive
-GitHub
-Utilizar para:
-desenvolvimento tecnológico;
-arquitetura;
-pipeline de dados;
-modelo de IA;
-screenshots;
-testes;
-exemplos anonimizados;
-histórico de evolução;
-integrações;
-documentação técnica.
-Google Drive
-Utilizar para:
-carta de intenção da Prefeitura / UBS;
-evidências do piloto;
-fotos do 68º Congresso de Municípios;
-participação pelo Sebrae for Startups;
-demonstrações para gestores;
-certificados;
-documentos institucionais;
-apresentações;
-relatórios complementares;
-demais evidências externas.
+
+## 🔗 Matriz de Integrações e Testes de Validação
+
+| Integração | Tecnologia | Papel Tecnológico | Status |
+| :--- | :--- | :--- | :---: |
+| **WhatsApp API** | REST / Webhooks | Automação de lembretes e confirmações com botões de ação instantânea | `Homologado` |
+| **PubMed / NCBI** | E-Utilities / XML | Curadoria de evidências clínicas indexadas para apoio à decisão | `Homologado` |
+| **Firebase Auth** | SDK / WebAuthn | Gestão de sessões, perfis (RBAC) e login biométrico nativo | `Homologado` |
+| **Totem / Monitor** | Reactive Streams | Comunicação síncrona em <300ms entre emissor de senhas e painel de TV | `Homologado` |
+
+Todos os testes de carga, integridade modular e latência estão documentados em:
+📖 [docs/testes-validacao.md](docs/testes-validacao.md) | [docs/integracoes.md](docs/integracoes.md)
+
 ---
-18. Evidências externas
-No README, deixar apenas uma referência às evidências externas.
-Modelo:
-```markdown
-## Evidências externas e institucionais
 
-As evidências institucionais e de validação externa da solução estão reunidas separadamente em ambiente documental controlado.
+## 🎯 Prontidão Tecnológica (TRL 5/6) e Desafios ELDORADO
 
-Incluem:
+A solução Vitta Care situa-se no nível **TRL 5/6** (Tecnologia demonstrada e validada em ambiente relevante e operacional representativo).
 
-- carta de intenção para realização de piloto em UBS;
-- registros de demonstração da solução;
-- participação em programas de inovação;
-- evidências de interação com gestores públicos;
-- participação da Vitta Care no 68º Congresso de Municípios por meio do Sebrae for Startups;
-- documentação complementar de validação.
+### Desafios Tecnológicos para a Aceleração ELDORADO (Evolução para TRL 7 → 8/9):
+1. **MLOps Contínuo e Drift Detection:** Criação de rotinas autônomas de monitoramento de desvios (*data drift* e *concept drift*) induzidos por sazonalidade climática ou epidemiológica.
+2. **Explicabilidade Clínica em Larga Escala (XAI):** Geração de relatórios auditáveis com SHAP para conferir total transparência aos comitês médicos e gestores do SUS.
+3. **Interoperabilidade em Saúde Pública:** Padronização em **HL7 FHIR** e conectores para integração com o barramento do **e-SUS APS** e **RNDS**.
+4. **Agente Conversacional Generativo Seguro:** Modelo de linguagem clínica para triagem de sintomas de preparo de consultas, respeitando salvaguardas estritas e limites éticos.
 
-Acesso:
-[LINK DO GOOGLE DRIVE]
-```
+Consulte o detalhamento do plano de evolução técnica em:
+📖 [docs/evolucao-tecnologica.md](docs/evolucao-tecnologica.md) | [CHANGELOG.md](CHANGELOG.md)
+
 ---
-19. Links principais
-Adicionar ao final do README:
-```markdown
-## Links
 
-**Evidências técnicas / desenvolvimento**
-GitHub: [LINK DO REPOSITÓRIO]
+## 📁 Estrutura do Repositório
 
-**Evidências institucionais / validação externa**
-Google Drive: [LINK DA PASTA]
-
-**Demonstração da plataforma**
-Vídeo: [LINK]
-
-**Site**
-[LINK DA VITTA CARE]
-```
----
-20. Texto para o formulário do Programa ELDORADO
-No campo:
-25. Evidências do TRL (Links)
-utilizar uma estrutura semelhante a:
-> **Evidências de desenvolvimento tecnológico — GitHub:**  
-> [LINK DO GITHUB]
->
-> Repositório contendo documentação da arquitetura, evolução do software, modelo preditivo de absenteísmo, pipeline de dados, integrações, testes, exemplos anonimizados e evidências de implementação da plataforma Vitta Care.
->
-> **Evidências de maturidade e validação externa — Google Drive:**  
-> [LINK DO GOOGLE DRIVE]
->
-> Pasta contendo documentação complementar, carta de intenção para piloto em UBS, registros de demonstração da solução, participação em ações do Sebrae for Startups e evidências de apresentação da plataforma a gestores públicos.
----
-21. Checklist antes de publicar
-README
-[ ] Descrição clara da Vitta Care;
-[ ] Problema apresentado;
-[ ] Solução apresentada;
-[ ] O que já está desenvolvido;
-[ ] Arquitetura;
-[ ] IA preditiva;
-[ ] Pipeline de dados;
-[ ] Integrações;
-[ ] Testes;
-[ ] Evolução tecnológica;
-[ ] Próximos desafios;
-[ ] Links externos.
-Evidências
-[ ] Screenshots atuais;
-[ ] Dashboard;
-[ ] Evidências do modelo;
-[ ] Testes;
-[ ] Diagramas;
-[ ] Histórico de evolução;
-[ ] Exemplos anonimizados.
-Segurança
-[ ] Nenhum dado pessoal;
-[ ] Nenhum dado sensível;
-[ ] Nenhuma senha;
-[ ] Nenhum token;
-[ ] Nenhuma chave de API;
-[ ] Nenhum arquivo `.env`;
-[ ] Nenhuma credencial de produção;
-[ ] Nenhum código estratégico que a empresa não queira divulgar.
-Links
-[ ] GitHub público e acessível;
-[ ] Drive configurado como “qualquer pessoa com o link pode visualizar”;
-[ ] Vídeos acessíveis;
-[ ] Links testados em janela anônima;
-[ ] Arquivos com nomes claros.
----
-22. Recomendações finais
-Não transforme o GitHub em um depósito de arquivos.  
-O README deve contar a história tecnológica da Vitta Care.
-Não publique o código-fonte completo apenas para comprovar TRL.  
-Documentação, exemplos e evidências técnicas podem ser suficientes.
-Mostre evolução.  
-O avaliador precisa perceber que houve desenvolvimento real ao longo do tempo.
-Mostre o que já funciona e o que ainda é desafio tecnológico.  
-Isso é particularmente importante para um programa de aceleração tecnológica.
-Não declare funcionalidades futuras como já implementadas.
-Não exponha informações de pacientes.
-Use diagramas e screenshots.  
-Eles tornam a avaliação muito mais rápida.
-Coloque data ou versão nas evidências quando possível.
-Mantenha o GitHub técnico e o Drive institucional.
-Teste todos os links antes da submissão.
----
-23. Resumo da estratégia de comprovação
 ```text
-                    EVIDÊNCIAS TRL
-                         │
-          ┌──────────────┴──────────────┐
-          │                             │
-       GitHub                       Google Drive
-          │                             │
- Desenvolvimento                Validação externa
- tecnológico                    e institucional
-          │                             │
- Arquitetura                    Carta da Prefeitura
- IA / Machine Learning          UBS / piloto
- Pipeline de dados              Congresso de Municípios
- Integrações                    Sebrae for Startups
- Testes                         Demonstrações
- Screenshots                    Documentos
- Evolução                       Evidências de mercado
+vitta-care-trl-evidencias/
+├── README.md                          # Documento consolidado de evidências e arquitetura
+├── CHANGELOG.md                       # Histórico formal de versões e lançamentos
+│
+├── docs/                              # Documentação técnica detalhada
+│   ├── arquitetura.md                 # Arquitetura, componentes e grafo modular
+│   ├── modelo-preditivo.md            # Modelagem de Machine Learning, Markov e Monte Carlo
+│   ├── pipeline-dados.md              # Fluxo de engenharia de dados e governança
+│   ├── integracoes.md                 # Matriz de integrações externas homologadas
+│   ├── testes-validacao.md            # Protocolos e resultados dos testes de validação
+│   └── evolucao-tecnologica.md        # Diagnóstico de TRL e metas do Programa ELDORADO
+│
+├── evidencias/                        # Artefatos visuais extraídos do sistema real
+│   ├── dashboards/                    # Telas de gestão, monitor e projeções financeiras
+│   ├── modelo-ia/                     # Telas de inferência preditiva e simulações
+│   ├── screenshots/                   # Telas operacionais de agenda, login e recepção
+│   └── testes/                        # Relatórios e logs anonimizados de execução
+│
+├── exemplos/                          # Cargas demonstrativas anonimizadas
+│   ├── exemplo_dados_anonimizados.csv # Dataset sintético de treino e validação
+│   ├── exemplo_inferencia.json        # Payload de entrada para predição de no-show
+│   └── exemplo_resultado.json         # Resposta do motor preditivo com probabilidades
+│
+└── diagrams/                          # Diagramas conceituais e identidade visual
+    ├── logo.png                       # Marca oficial Vitta Care
+    ├── jornada_do_paciente.png        # Mapeamento do ciclo de atendimento
+    └── absenteismo_workflow.png       # Fluxo de contenção preditiva
 ```
-A combinação dos dois conjuntos de evidências deve mostrar que a Vitta Care possui:
-desenvolvimento tecnológico real + solução funcional + evolução documentada + aplicação em contexto de saúde + caminho concreto para validação em ambiente operacional.
+
 ---
-Vitta Care
-VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)
-Plataforma de Inteligência Artificial para predição e redução de absenteísmo, otimização de agendas e automação da jornada do paciente.
+
+## 🔐 Privacidade, LGPD e Propriedade Intelectual
+
+A **Vitta Care** aplica os princípios de *Privacy by Design* e *Privacy by Default* em toda a sua esteira de software:
+
+- **Dados Médicos e Pessoais Preservados:** Este repositório é estritamente documental e demonstrativo. Nenhuma base de dados de produção, identificador pessoal de paciente ou registro de saúde protegido está contido nestes arquivos.
+- **Segredos e Chaves:** Chaves de API, segredos de infraestrutura e tokens de provedores externos são injetados exclusivamente em tempo de execução via gerenciadores de segredos (*Secret Managers*) e arquivos `.env` estritamente ignorados pelo versionador (`.gitignore`).
+- **Anonimização Certificada:** Todos os exemplos JSON/CSV apresentados contêm registros puramente sintéticos, elaborados unicamente para fins de verificação metodológica.
+
+---
+
+## 🌐 Links e Evidências Externas
+
+Para manter o repositório técnico focado em desenvolvimento de software e ciência de dados, as **evidências institucionais, cartas de validação externa e registros de mercado** são mantidas em ambiente documental controlado:
+
+- 📂 **Repositório de Evidências Institucionais (Google Drive):** Documentos de apoio, cartas de intenção para pilotos em Unidades Básicas de Saúde (UBS), fotos de participação no **68º Congresso de Municípios** e aceleração **Sebrae for Startups**.  
+  👉 *(Link disponibilizado diretamente no formulário de inscrição do Programa ELDORADO)*
+- 💻 **Código-Fonte da Aplicação (Repositório Privado):** `https://github.com/allanfs1/Vitta_Care_flutter`
+- 🏢 **Startup:** VITTA CARE SOLUTIONS INOVA SIMPLES (I.S.)
+
+---
+
+<div align="center">
+  <b>Vitta Care Solutions</b> — Transformando a Gestão e o Acesso à Saúde com Inteligência Artificial.<br/>
+  <sub>© 2026 Vitta Care. Todos os direitos reservados.</sub>
+</div>

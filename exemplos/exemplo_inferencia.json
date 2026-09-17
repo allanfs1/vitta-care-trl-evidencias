@@ -1,0 +1,15 @@
+{
+  "agendamento_id": "ag_98421_anon",
+  "dias_antecedencia": 12,
+  "distancia_km": 9.4,
+  "consultas_30d": 2,
+  "taxa_hist_falta": 0.28,
+  "lembrete_enviado": true,
+  "lembrete_confirmado": false,
+  "feriado_proximo": false,
+  "is_weekend": false,
+  "periodo": "tarde",
+  "idade": 45,
+  "historico_faltas_total": 2,
+  "especialidade": "Cardiologia"
+}

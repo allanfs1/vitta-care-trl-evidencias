@@ -1,0 +1,13 @@
+agendamento_id,dias_antecedencia,distancia_km,consultas_30d,taxa_hist,lembrete,feriado,is_weekend,periodo,idade,historico_faltas,status_comparecimento
+ag_1001,3,4.2,1,0.05,1,0,0,manha,34,0,compareceu
+ag_1002,15,12.8,0,0.40,1,0,0,tarde,52,2,faltou
+ag_1003,7,2.1,2,0.10,1,0,0,manha,28,0,compareceu
+ag_1004,21,18.5,0,0.50,0,0,1,tarde,41,3,faltou
+ag_1005,1,1.5,4,0.00,1,0,0,tarde,63,0,compareceu
+ag_1006,10,8.0,1,0.20,1,0,0,manha,22,1,compareceu
+ag_1007,18,14.3,0,0.35,0,1,0,manha,39,2,faltou
+ag_1008,5,5.7,1,0.00,1,0,0,tarde,49,0,compareceu
+ag_1009,2,3.4,3,0.15,1,0,0,manha,58,0,compareceu
+ag_1010,25,22.0,0,0.60,0,0,0,tarde,31,4,faltou
+ag_1011,4,6.2,1,0.10,1,0,0,manha,45,0,compareceu
+ag_1012,14,11.5,0,0.30,1,0,0,tarde,29,1,faltou
