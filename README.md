@@ -6,12 +6,12 @@
 
 ### Plataforma de Modelagem Estocástica e Otimização de Capacidade Assistencial para Redução de Absenteísmo em Serviços de Saúde
 
-[![TRL](https://img.shields.io/badge/TRL-5%2F6-brightgreen.svg)](#11-prontidão-tecnológica-e-programa-eldorado)
+[![TRL](https://img.shields.io/badge/TRL-5%2F6-brightgreen.svg)](#12-prontidão-tecnológica-e-programa-eldorado)
 [![Flutter](https://img.shields.io/badge/Flutter%203.x-02569B.svg?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-0175C2.svg?logo=dart)](https://dart.dev)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28.svg?logo=firebase)](https://firebase.google.com)
-[![LGPD](https://img.shields.io/badge/LGPD%20Compliant-blue.svg)](#10-conformidade-lgpd-e-propriedade-intelectual)
-[![ELDORADO](https://img.shields.io/badge/Programa%20ELDORADO-orange.svg)](#11-prontidão-tecnológica-e-programa-eldorado)
+[![LGPD](https://img.shields.io/badge/LGPD%20Compliant-blue.svg)](#11-conformidade-lgpd-e-propriedade-intelectual)
+[![ELDORADO](https://img.shields.io/badge/Programa%20ELDORADO-orange.svg)](#12-prontidão-tecnológica-e-programa-eldorado)
 
 <br/>
 
@@ -29,15 +29,16 @@
 
 1. [Formulação do Problema](#1-formulação-do-problema)
 2. [Abordagem Técnica](#2-abordagem-técnica)
-3. [Simulador de Monte Carlo com Cópula Gaussiana](#3-simulador-de-monte-carlo-com-cópula-gaussiana)
-4. [Cadeia de Markov da Jornada do Agendamento](#4-cadeia-de-markov-da-jornada-do-agendamento)
-5. [Motor de Decisão de Overbooking](#5-motor-de-decisão-de-overbooking)
-6. [Arquitetura Modular e Grafo Acíclico Dirigido](#6-arquitetura-modular-e-grafo-acíclico-dirigido)
-7. [Evidências Visuais da Plataforma](#7-evidências-visuais-da-plataforma)
-8. [Pipeline de Calibração e Integridade Estatística](#8-pipeline-de-calibração-e-integridade-estatística)
-9. [Estrutura do Repositório](#9-estrutura-do-repositório)
-10. [Conformidade LGPD e Propriedade Intelectual](#10-conformidade-lgpd-e-propriedade-intelectual)
-11. [Prontidão Tecnológica e Programa ELDORADO](#11-prontidão-tecnológica-e-programa-eldorado)
+3. [Pipeline de Inteligência Artificial — Treinamento e Inferência (Azure ML)](#3-pipeline-de-inteligência-artificial--treinamento-e-inferência-azure-ml)
+4. [Simulador de Monte Carlo com Cópula Gaussiana](#4-simulador-de-monte-carlo-com-cópula-gaussiana)
+5. [Cadeia de Markov da Jornada do Agendamento](#5-cadeia-de-markov-da-jornada-do-agendamento)
+6. [Motor de Decisão de Overbooking](#6-motor-de-decisão-de-overbooking)
+7. [Arquitetura Modular e Grafo Acíclico Dirigido](#7-arquitetura-modular-e-grafo-acíclico-dirigido)
+8. [Evidências Visuais da Plataforma](#8-evidências-visuais-da-plataforma)
+9. [Pipeline de Calibração e Integridade Estatística](#9-pipeline-de-calibração-e-integridade-estatística)
+10. [Estrutura do Repositório](#10-estrutura-do-repositório)
+11. [Conformidade LGPD e Propriedade Intelectual](#11-conformidade-lgpd-e-propriedade-intelectual)
+12. [Prontidão Tecnológica e Programa ELDORADO](#12-prontidão-tecnológica-e-programa-eldorado)
 
 ---
 
@@ -83,7 +84,77 @@ A distinção entre os três desfechos (comparece, cancela com antecedência, fa
 
 ---
 
-## 3. Simulador de Monte Carlo com Cópula Gaussiana
+## 3. Pipeline de Inteligência Artificial — Treinamento e Inferência (Azure ML)
+
+A estimação individualizada da probabilidade de comparecimento ($p_i$) é gerada por um pipeline treinado no **Azure Machine Learning** e implantado como endpoint REST via **Azure Container Instance (ACI)**.
+
+> Documentação técnica completa com formulações matemáticas, análise linha a linha de código e gráficos em: [`docs/pipeline-ia-completo.md`](docs/pipeline-ia-completo.md).
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       AZURE MACHINE LEARNING WORKSPACE                      │
+│                                                                             │
+│  Dataset Histórico    Pré-processamento (Pipeline)   Validação Cruzada (5-fold)
+│  (18 features)   ──▶  ColumnTransformer          ──▶ SMOTE dentro da dobra  │
+│                       • Numéricas: Imputer+Scaler    (sem data leakage)     │
+│                       • Categóricas: Imputer+Dummy   Competição de 4 modelos│
+│                                                      (RF, GBT, LogReg, XGB) │
+│                                                                 │           │
+│                                                                 ▼           │
+│  ACI Endpoint REST    Artefato Hermético (model.pkl) ◀── Seleção por ROC-AUC│
+│  predict_proba()  ◀── Pipeline + Modelo + Threshold     + Youden J / KS     │
+│                       Ótimo (Kolmogorov-Smirnov)        + SHAP TreeExplainer│
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                        predict_proba()│
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      FLUTTER / ENGINE ESTOCÁSTICO                           │
+│                                                                             │
+│  tb_agendamentos.probabilidade_falta ──▶ Appointment.pFaltaPrevista         │
+│                                                 │                           │
+│                                                 ▼                           │
+│                     Marginais da Cópula Gaussiana (Monte Carlo)             │
+│                     X_i = √(ρ)·Z + √(1-ρ)·ε_i ──▶ Decisão de Overbooking    │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 3.1 Tratamento de Desbalanceamento sem Data Leakage
+
+O absenteísmo clínico apresenta desbalanceamento severo de classes. Para evitar viés amostral, o pipeline aplica **SMOTE** (*Synthetic Minority Over-sampling Technique*), porém com uma salvaguarda metodológica crítica: o SMOTE é encapsulado em um `imblearn.pipeline.Pipeline` e executado **estritamente dentro de cada dobra de treino** da validação cruzada estratificada (5-fold). A dobra de validação permanece composta exclusivamente por instâncias reais observadas, garantindo que a métrica de AUC não seja inflada artificialmente por interpolações sintéticas.
+
+### 3.2 Competição de Algoritmos e Métrica de Seleção
+
+Quatro famílias de estimadores competem no mesmo protocolo de validação:
+
+| Algoritmo | Mecanismo de Penalização / Pesagem | Critério de Otimização |
+|:---|:---|:---|
+| **XGBoost Classifier** | `scale_pos_weight` $= |\{y=0\}| / |\{y=1\}|$ | Log-Loss com regularização L1/L2 |
+| **Random Forest** | `class_weight='balanced'` | Gini / Entropia com bagging |
+| **Gradient Boosting** | SMOTE integrado na dobra | Boosting sequencial com shrinkage |
+| **Regressão Logística** | `class_weight='balanced'`, `solver='saga'` | ElasticNet / penalidade mista |
+
+A seleção é governada pela **ROC-AUC** (Área sob a Curva ROC) em vez da acurácia, pois a acurácia é degenerada em conjuntos desbalanceados (um classificador ingênuo teria ~80% de acurácia prevendo apenas a classe majoritária, sem qualquer utilidade clínica).
+
+### 3.3 Threshold Ótimo por Kolmogorov-Smirnov (Youden J)
+
+Em vez de adotar arbitrariamente o ponto de corte $t = 0{,}50$, o pipeline calcula o **limiar ótimo** maximizando a estatística de Kolmogorov-Smirnov (equivalente ao índice de Youden $J$):
+
+$$t^* = \arg\max_{t \in [0, 1]} \left[ \text{TPR}(t) - \text{FPR}(t) \right]$$
+
+O valor $t^*$ é serializado no artefato `model.pkl` junto com o `ColumnTransformer` ajustado, garantindo paridade exata entre o ambiente de treino e a inferência em produção (*zero train-serve skew*).
+
+### 3.4 Explicabilidade Clínica com SHAP
+
+Para aderência às exigências éticas e clínicas (XAI), o pipeline integra o **SHAP** (*SHapley Additive exPlanations*) baseado na teoria dos jogos cooperativos. O `TreeExplainer` decompõe cada probabilidade predita na soma aditiva da expectativa global ($\phi_0$) com as contribuições marginais de cada variável ($\phi_j$):
+
+$$\hat{f}(x) = \phi_0 + \sum_{j=1}^{M} \phi_j(x)$$
+
+Isso permite auditar os principais determinantes do absenteísmo (ex: antecedência do agendamento, distância geográfica, histórico prévio de faltas) tanto em nível populacional (beeswarm plot) quanto para cada agendamento individual.
+
+---
+
+## 4. Simulador de Monte Carlo com Cópula Gaussiana
 
 O motor de simulação está implementado em [`monte_carlo_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_engine.dart) (~776 linhas de Dart, lógica pura testável sem Flutter).
 
@@ -141,7 +212,7 @@ Ao final da simulação, o motor calcula o fator de dispersão observado $\phi =
 
 ---
 
-## 4. Cadeia de Markov da Jornada do Agendamento
+## 5. Cadeia de Markov da Jornada do Agendamento
 
 O ciclo de vida de uma consulta é modelado como cadeia de Markov absorvente com 7 estados, implementada em [`markov_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/projecao_12m/markov_engine.dart):
 
@@ -181,7 +252,7 @@ onde $k = 50$ é o número de observações que dá peso 50/50. Abaixo disso, a 
 
 ---
 
-## 5. Motor de Decisão de Overbooking
+## 6. Motor de Decisão de Overbooking
 
 O overbooking não é decidido por dia, mas por **slot** (médico × hora), pois uma falta às 16h não libera capacidade para um encaixe às 9h.
 
@@ -204,7 +275,7 @@ A **lista de espera** é dimensionada pelo quartil inferior ($Q_{25}$) das vagas
 
 ---
 
-## 6. Arquitetura Modular e Grafo Acíclico Dirigido
+## 7. Arquitetura Modular e Grafo Acíclico Dirigido
 
 ### 6.1 Registro de Módulos
 
@@ -272,11 +343,11 @@ P3 (Avançado)     projecao_12m, ia, whatsapp, evidencias, cerebro
 
 ---
 
-## 7. Evidências Visuais da Plataforma
+## 8. Evidências Visuais da Plataforma
 
 As capturas abaixo foram extraídas da aplicação em execução, demonstrando o funcionamento real dos módulos de absenteísmo e gestão operacional.
 
-### 7.1 Painel de Indicadores Operacionais
+### 8.1 Painel de Indicadores Operacionais
 > Dashboard central com KPIs de absenteísmo, taxa de ocupação e evolução temporal.
 
 <div align="center">
@@ -285,7 +356,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-### 7.2 Motor de Predição de Absenteísmo
+### 8.2 Motor de Predição de Absenteísmo
 > Módulo preditivo com estratificação de risco por paciente, heatmap de concentração de faltas por dia/horário, índice de absenteísmo segmentado por médico e especialidade.
 
 <div align="center">
@@ -294,7 +365,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-### 7.3 Simulador Estocástico de Monte Carlo
+### 8.3 Simulador Estocástico de Monte Carlo
 > Interface de parametrização da simulação: número de runs, correlação latente (ρ), modo de encaixe, distribuição de faltas por slot (médico × hora) e avaliação de cenários de overbooking.
 
 <div align="center">
@@ -303,7 +374,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-### 7.4 Projeção em 12 Meses (Cadeia de Markov + Monte Carlo)
+### 8.4 Projeção em 12 Meses (Cadeia de Markov + Monte Carlo)
 > Projeção operacional e financeira: cenário baseline versus cenário com intervenção, decomposição de receita defensável versus antecipação de demanda, governança de parâmetros.
 
 <div align="center">
@@ -312,7 +383,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-### 7.5 Gestão de Agendamentos e Grade Médica
+### 8.5 Gestão de Agendamentos e Grade Médica
 > Grade de agendamentos com alertas de risco preditivo integrados.
 
 <div align="center">
@@ -321,7 +392,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-### 7.6 Mapa de Módulos e Validação do Grafo de Dependências (DAG)
+### 8.6 Mapa de Módulos e Validação do Grafo de Dependências (DAG)
 > Sistema de governança arquitetural com 28 módulos, ordenação topológica e status de implementação.
 
 <div align="center">
@@ -330,7 +401,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
-## 8. Pipeline de Calibração e Integridade Estatística
+## 9. Pipeline de Calibração e Integridade Estatística
 
 Antes de substituir os parâmetros padrão do modelo pelas taxas observadas na base real de uma clínica, o motor de calibração ([`monte_carlo_calibracao.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_calibracao.dart)) executa verificações de integridade dos dados:
 
@@ -344,7 +415,7 @@ O intervalo de confiança utilizado é o de **Wilson**, não Wald: com poucas ob
 
 ---
 
-## 9. Estrutura do Repositório
+## 10. Estrutura do Repositório
 
 ```text
 vitta-care-trl-evidencias/
@@ -352,6 +423,7 @@ vitta-care-trl-evidencias/
 ├── CHANGELOG.md                       # Histórico de evolução tecnológica
 │
 ├── docs/
+│   ├── pipeline-ia-completo.md        # Pipeline de IA (Azure ML, métricas, SHAP)
 │   ├── arquitetura.md                 # Componentes, camadas e integrações
 │   ├── modelo-preditivo.md            # Formulação MC, Markov e calibração
 │   ├── pipeline-dados.md              # ETL, feature engineering e PHI Guard
@@ -374,7 +446,7 @@ vitta-care-trl-evidencias/
 
 ---
 
-## 10. Conformidade LGPD e Propriedade Intelectual
+## 11. Conformidade LGPD e Propriedade Intelectual
 
 Este repositório é **exclusivamente documental e demonstrativo**. Não contém bases de dados de produção, identificadores de pacientes, credenciais de infraestrutura ou código proprietário estratégico.
 
@@ -382,7 +454,7 @@ Todos os exemplos JSON/CSV são **sintéticos**, elaborados para verificação m
 
 ---
 
-## 11. Prontidão Tecnológica e Programa ELDORADO
+## 12. Prontidão Tecnológica e Programa ELDORADO
 
 A solução situa-se no nível **TRL 5/6** — tecnologia demonstrada e validada em ambiente computacional representativo.
 
