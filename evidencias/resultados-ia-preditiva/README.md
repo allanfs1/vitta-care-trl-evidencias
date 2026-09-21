@@ -26,17 +26,6 @@ Todas as curvas e métricas foram consolidadas de forma mutuamente consistente a
 | **13** | [`13_shap_beeswarm.png`](13_shap_beeswarm.png) | SHAP Beeswarm Plot | Distribuição densa dos valores Shapley por observação. |
 | **14** | [`14_shap_bar.png`](14_shap_bar.png) | SHAP Bar Plot | Média absoluta dos valores de impacto |SHAP| por feature. |
 
----
-
-## 🔬 Script de Reprodutibilidade
-
-- **Script:** [`gerar_graficos_primeiros_testes.py`](gerar_graficos_primeiros_testes.py)
-- **Requisitos:** `numpy`, `matplotlib`, `scipy`, `scikit-learn`
-- **Execução:**
-  ```bash
-  python gerar_graficos_primeiros_testes.py
-  ```
-- O script recalcula e exporta automaticamente as 15 figuras com resolução de 120 DPI diretamente neste diretório.
 
 ---
 

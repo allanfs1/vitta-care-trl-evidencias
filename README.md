@@ -428,7 +428,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 ---
 
 ### 8.7 Resultados da Avaliação da I.A. Preditiva (Primeiros Testes & Métricas)
-> Suíte completa de 15 gráficos de diagnóstico (Matriz de Confusão, ROC, Precision-Recall, Lift, Ganho Cumulativo, KS, Calibração, Distribuição de Probabilidades e Análise de Explicabilidade SHAP) e script Python reprodutível.
+> Suíte completa de 15 gráficos de diagnóstico (Matriz de Confusão, ROC, Precision-Recall, Lift, Ganho Cumulativo, KS, Calibração, Distribuição de Probabilidades e Análise de Explicabilidade SHAP).
 >
 > 📁 **Pasta de evidências:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
 
@@ -482,7 +482,7 @@ vitta-care-trl-evidencias/
 ├── evidencias/
 │   ├── dashboards/                    # Home, projeção 12m, monitor, health score
 │   ├── modelo-ia/                     # Absenteísmo, simulador Monte Carlo
-│   ├── resultados-ia-preditiva/       # 15 gráficos de validação, ROC, PR, SHAP e script gerador
+│   ├── resultados-ia-preditiva/       # 15 gráficos de validação, ROC, PR e SHAP
 │   └── screenshots/                   # Login, agenda, recepção, módulos
 │
 ├── exemplos/
