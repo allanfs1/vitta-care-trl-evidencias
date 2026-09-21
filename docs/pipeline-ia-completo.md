@@ -230,6 +230,24 @@ joblib.dump({
 }, "model.pkl")
 ```
 
+#### Resultados de Validação Homologados na Base de Teste ($N = 3.236$)
+
+| Métrica | Threshold Padrão ($0.500$) | Threshold Ótimo Youden/KS ($0.370$) |
+|:---|:---:|:---:|
+| **Acurácia (Accuracy)** | 86.06% | **88.78%** |
+| **Sensibilidade (Recall)** | 81.58% (1.320/1.618) | **91.90% (1.487/1.618)** |
+| **Especificidade** | **90.54% (1.465/1.618)** | 85.66% (1.386/1.618) |
+| **Precisão** | **89.61%** | 86.50% |
+| **F1-Score** | 85.41% | **89.12%** |
+| **ROC-AUC** | **0.9442** | **0.9442** |
+| **Average Precision (PR-AUC)** | **0.9266** | **0.9266** |
+| **Estatística KS** | — | **0.7756** (@ score 0.370) |
+| **Brier Score** | **0.1070** | **0.1070** |
+| **Lift Decil 1** | **1.93x** | **1.93x** |
+
+> **Nota de Decisão Arquitetural:** O threshold de produção recomendado no artefato `model.pkl` é **$0.370$**, pois reduz em **$56.0\%$ as faltas não detectadas** (de 298 para 131), priorizando a capacidade assistencial com um custo operacional mínimo de falsos positivos.
+
+
 ### 4.3 Gráficos de Diagnóstico (14+)
 
 > 📁 **Evidências geradas:** Os 15 gráficos resultantes da validação diagnóstica dos primeiros testes encontram-se arquivados em [`../evidencias/resultados-ia-preditiva/`](../evidencias/resultados-ia-preditiva/).

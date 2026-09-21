@@ -13,13 +13,16 @@ Este documento consolida os testes de validação técnica executados na platafo
 ---
 
 ## Teste 02 — Inferência Preditiva de Absenteísmo (No-Show)
-- **Objetivo:** Validar o cálculo da probabilidade de falta, a classificação de risco (Baixo, Médio, Alto) e o tempo de resposta da inferência.
-- **Entrada:** Lote de $500$ registros de agendamentos ambulatoriais anonimizados.
-- **Resultado:** 
-  - Tempo médio de inferência por agendamento: **114 ms**.
-  - Calibração de probabilidade dentro da margem de erro aceitável (Brier score: $0.118$).
-  - Associação precisa do risco no painel operacional de agendamentos.
-  - Evidências visuais e suite diagnóstica completa arquivada em [`../evidencias/resultados-ia-preditiva/`](../evidencias/resultados-ia-preditiva/).
+- **Objetivo:** Validar a capacidade de discriminação, calibração de probabilidade, identificação de limiar operacional ótimo (Youden / KS) e tempo de resposta de inferência.
+- **Entrada:** Lote de validação com $3.236$ registros de agendamentos ambulatoriais (1.618 faltas e 1.618 comparecimentos), derivado de base de treinamento de $12.942$ amostras.
+- **Resultado:**
+  - **Capacidade Discriminativa:** $\text{ROC-AUC} = \mathbf{0.9442}$, com ponto de máxima divergência Kolmogorov-Smirnov $\text{KS} = \mathbf{0.7756}$.
+  - **Sustentação de Precisão:** $\text{Average Precision (AP)} = \mathbf{0.9266}$ (frente ao baseline de prevalência de $0.500$).
+  - **Calibração Probabilística:** Brier score de $\mathbf{0.1070}$, garantindo fidelidade estocástica para os motores de Monte Carlo e Markov.
+  - **Ponto de Operação Ótimo:** Threshold $\mathbf{0.370}$, elevando a sensibilidade para $\mathbf{91.90\%}$ ($1.487$ faltas detectadas), com especificidade de $85.66\%$ e acurácia de $88.78\%$.
+  - **Eficiência de Priorização:** Curva de Lift de até $\mathbf{1.93\times}$ e captura de $87\%$ das faltas nos primeiros $50\%$ da base abordada.
+  - **Tempo médio de inferência por agendamento:** **114 ms**.
+  - **Evidências visuais e suite diagnóstica completa:** Arquivada em [`../evidencias/resultados-ia-preditiva/`](../evidencias/resultados-ia-preditiva/).
 - **Status:** **Aprovado.**
 
 ---

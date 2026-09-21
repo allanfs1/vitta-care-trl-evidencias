@@ -428,7 +428,7 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 ---
 
 ### 8.7 Resultados da Avaliação da I.A. Preditiva (Primeiros Testes & Métricas)
-> Evidências visuais e métricas diagnósticas do modelo preditivo de absenteísmo: Matrizes de Confusão (threshold padrão de 0.500 e threshold ótimo de 0.370), Curva ROC (AUC = 0.9442), Curva Precision-Recall (AP = 0.9266) e Curva de Lift.
+> Evidências visuais e métricas diagnósticas do modelo preditivo de absenteísmo: Matrizes de Confusão (threshold padrão de 0.500 e threshold ótimo de 0.370), Curva ROC ($	ext{AUC} = 0.9442$), Curva Precision-Recall ($	ext{AP} = 0.9266$) e Curva de Lift ($1.93	imes$).
 >
 > 📁 **Pasta de evidências completas:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
 
@@ -445,6 +445,15 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 <div align="center">
   <img src="evidencias/resultados-ia-preditiva/04_curva_lift.png" alt="Curva de Lift" width="70%"/>
 </div>
+
+| Métrica Chave | Valor Obtido | Interpretação Clínica / Operacional |
+|:---|:---:|:---|
+| **ROC-AUC** | **0.9442** | Capacidade discriminativa quase perfeita entre pacientes confirmados e faltosos. |
+| **Ponto Ótimo (KS)** | **0.7756 @ 0.370** | Maximização da separabilidade de classes no threshold sugerido de operação. |
+| **Sensibilidade (Recall)** | **91.90%** | Captura 1.487 de 1.618 faltas (redução de 56% nas faltas não detectadas frente ao thr 0.500). |
+| **Average Precision** | **0.9266** | Elevadíssima precisão sustentada em relação ao baseline aleatório (0.500). |
+| **Brier Score** | **0.1070** | Calibração probabilística rigorosa para alimentação do motor de Monte Carlo e Markov. |
+| **Lift (Decil 1)** | **1.93x** | Intervenções ativas (WhatsApp/confirmação) têm o dobro de efetividade se priorizadas pelo modelo. |
 
 ---
 
