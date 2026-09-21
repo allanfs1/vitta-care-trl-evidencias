@@ -428,17 +428,22 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 ---
 
 ### 8.7 Resultados da Avaliação da I.A. Preditiva (Primeiros Testes & Métricas)
-> Suíte completa de 15 gráficos de diagnóstico (Matriz de Confusão, ROC, Precision-Recall, Lift, Ganho Cumulativo, KS, Calibração, Distribuição de Probabilidades e Análise de Explicabilidade SHAP).
+> Suíte de validação e curvas de desempenho do modelo preditivo de absenteísmo: Curva ROC, Precision-Recall, Curva de Lift, Estatística KS e Distribuição de Probabilidades.
 >
-> 📁 **Pasta de evidências:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
+> 📁 **Pasta de evidências completas:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
 
 <div align="center">
   <img src="evidencias/resultados-ia-preditiva/02_curva_roc.png" alt="Curva ROC" width="48%"/>
-  <img src="evidencias/resultados-ia-preditiva/07_calibration_curve.png" alt="Curva de Calibração" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/03_curva_precision_recall.png" alt="Curva Precision-Recall" width="48%"/>
 </div>
+<br/>
 <div align="center">
-  <img src="evidencias/resultados-ia-preditiva/12_shap_summary.png" alt="SHAP Summary" width="48%"/>
-  <img src="evidencias/resultados-ia-preditiva/01_matriz_confusao_thr_otimo.png" alt="Matriz de Confusão Ótimo" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/04_curva_lift.png" alt="Curva de Lift" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/06_curva_ks.png" alt="Curva KS" width="48%"/>
+</div>
+<br/>
+<div align="center">
+  <img src="evidencias/resultados-ia-preditiva/08_distribuicao_probabilidades.png" alt="Distribuição de Probabilidades" width="70%"/>
 </div>
 
 ---
