@@ -428,22 +428,22 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 ---
 
 ### 8.7 Resultados da Avaliação da I.A. Preditiva (Primeiros Testes & Métricas)
-> Suíte de validação e curvas de desempenho do modelo preditivo de absenteísmo: Curva ROC, Precision-Recall, Curva de Lift, Estatística KS e Distribuição de Probabilidades.
+> Evidências visuais e métricas diagnósticas do modelo preditivo de absenteísmo: Matrizes de Confusão (threshold padrão de 0.500 e threshold ótimo de 0.370), Curva ROC (AUC = 0.9442), Curva Precision-Recall (AP = 0.9266) e Curva de Lift.
 >
 > 📁 **Pasta de evidências completas:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
 
 <div align="center">
-  <img src="evidencias/resultados-ia-preditiva/02_curva_roc.png" alt="Curva ROC" width="48%"/>
-  <img src="evidencias/resultados-ia-preditiva/03_curva_precision_recall.png" alt="Curva Precision-Recall" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/01_matriz_confusao_thr050.png" alt="Matriz de Confusão (thr = 0.500)" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/01_matriz_confusao_thr_otimo.png" alt="Matriz de Confusão (thr = 0.370)" width="48%"/>
 </div>
 <br/>
 <div align="center">
-  <img src="evidencias/resultados-ia-preditiva/04_curva_lift.png" alt="Curva de Lift" width="48%"/>
-  <img src="evidencias/resultados-ia-preditiva/06_curva_ks.png" alt="Curva KS" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/02_curva_roc.png" alt="Curva ROC (AUC = 0.9442)" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/03_curva_precision_recall.png" alt="Curva Precision x Recall (AP = 0.9266)" width="48%"/>
 </div>
 <br/>
 <div align="center">
-  <img src="evidencias/resultados-ia-preditiva/08_distribuicao_probabilidades.png" alt="Distribuição de Probabilidades" width="70%"/>
+  <img src="evidencias/resultados-ia-preditiva/04_curva_lift.png" alt="Curva de Lift" width="70%"/>
 </div>
 
 ---
