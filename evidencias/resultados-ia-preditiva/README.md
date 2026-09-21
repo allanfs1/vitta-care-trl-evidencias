@@ -1,6 +1,6 @@
-# Resultados da I.A. Preditiva — Primeiros Testes & Validação Diagnóstica
+# Resultados da I.A. Preditiva — Validação Diagnóstica & Métricas de Desempenho
 
-Este diretório reúne as evidências visuais e estatísticas da primeira rodada de testes do modelo preditivo de absenteísmo (*no-show*) da plataforma **Vitta Care**, desenvolvida no âmbito do **Programa ELDORADO / Centelha / GovTech**.
+Este diretório reúne as evidências visuais e estatísticas da avaliação do modelo preditivo de absenteísmo (*no-show*) da plataforma **Vitta Care**, desenvolvida no âmbito do **Programa ELDORADO / Centelha / GovTech**.
 
 Todas as curvas e métricas foram consolidadas de forma mutuamente consistente a partir de um mesmo vetor de predições e rótulos reais de validação, permitindo avaliar o comportamento do discriminador, calibração de probabilidades e explicabilidade SHAP.
 
