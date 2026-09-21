@@ -427,6 +427,22 @@ As capturas abaixo foram extraídas da aplicação em execução, demonstrando o
 
 ---
 
+### 8.7 Resultados da Avaliação da I.A. Preditiva (Primeiros Testes & Métricas)
+> Suíte completa de 15 gráficos de diagnóstico (Matriz de Confusão, ROC, Precision-Recall, Lift, Ganho Cumulativo, KS, Calibração, Distribuição de Probabilidades e Análise de Explicabilidade SHAP) e script Python reprodutível.
+>
+> 📁 **Pasta de evidências:** [`evidencias/resultados-ia-preditiva/`](evidencias/resultados-ia-preditiva/)
+
+<div align="center">
+  <img src="evidencias/resultados-ia-preditiva/02_curva_roc.png" alt="Curva ROC" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/07_calibration_curve.png" alt="Curva de Calibração" width="48%"/>
+</div>
+<div align="center">
+  <img src="evidencias/resultados-ia-preditiva/12_shap_summary.png" alt="SHAP Summary" width="48%"/>
+  <img src="evidencias/resultados-ia-preditiva/01_matriz_confusao_thr_otimo.png" alt="Matriz de Confusão Ótimo" width="48%"/>
+</div>
+
+---
+
 ## 9. Pipeline de Calibração e Integridade Estatística
 
 Antes de substituir os parâmetros padrão do modelo pelas taxas observadas na base real de uma clínica, o motor de calibração ([`monte_carlo_calibracao.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/monte_carlo/monte_carlo_calibracao.dart)) executa verificações de integridade dos dados:
@@ -466,6 +482,7 @@ vitta-care-trl-evidencias/
 ├── evidencias/
 │   ├── dashboards/                    # Home, projeção 12m, monitor, health score
 │   ├── modelo-ia/                     # Absenteísmo, simulador Monte Carlo
+│   ├── resultados-ia-preditiva/       # 15 gráficos de validação, ROC, PR, SHAP e script gerador
 │   └── screenshots/                   # Login, agenda, recepção, módulos
 │
 ├── exemplos/

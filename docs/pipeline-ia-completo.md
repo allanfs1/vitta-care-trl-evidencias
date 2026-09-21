@@ -232,6 +232,8 @@ joblib.dump({
 
 ### 4.3 Gráficos de Diagnóstico (14+)
 
+> 📁 **Evidências geradas:** Os 15 gráficos resultantes da validação diagnóstica dos primeiros testes encontram-se arquivados em [`../evidencias/resultados-ia-preditiva/`](../evidencias/resultados-ia-preditiva/), juntamente com o script de geração.
+
 | # | Gráfico | O que diagnostica |
 |:---|:---|:---|
 | 01 | Matriz de Confusão (thr=0.5) | Erros absolutos e relativos por classe |

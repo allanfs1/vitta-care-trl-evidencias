@@ -19,6 +19,7 @@ Este documento consolida os testes de validação técnica executados na platafo
   - Tempo médio de inferência por agendamento: **114 ms**.
   - Calibração de probabilidade dentro da margem de erro aceitável (Brier score: $0.118$).
   - Associação precisa do risco no painel operacional de agendamentos.
+  - Evidências visuais e suite diagnóstica completa arquivada em [`../evidencias/resultados-ia-preditiva/`](../evidencias/resultados-ia-preditiva/).
 - **Status:** **Aprovado.**
 
 ---

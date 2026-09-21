@@ -2,6 +2,7 @@
 
 ## [v0.4.0] — 2026-09
 ### Adicionado
+- Evidências completas de avaliação e primeiros testes da I.A. preditiva (`evidencias/resultados-ia-preditiva/`), incluindo 15 gráficos diagnósticos (ROC, PR, Lift, Gain, KS, Calibração, Distribuição de Probabilidades e SHAP) e script reprodutível de geração.
 - Módulo de Mapa de Arquitetura e Grafo de Dependências (`ModuleGraph`) com validação topológica de 28 módulos.
 - Integração do Simulador de Monte Carlo com propagação de 3 camadas de incerteza (forecast lognormal WAPE, parâmetro Beta posterior e realização multinomial).
 - Modelagem estocástica com Cadeia de Markov e regularização de Laplace Dirichlet.
