@@ -179,7 +179,7 @@ cv_scores = cross_val_score(
 
 O XGBoost usa `scale_pos_weight` como alternativa ao `class_weight` do sklearn. O valor é calculado como a razão de negativos para positivos:
 
-$$\text{scale\_pos\_weight} = \frac{|\{y = 0\}|}{|\{y = 1\}|}$$
+$$w_{\text{pos}} = \frac{|\{y = 0\}|}{|\{y = 1\}|}$$
 
 Isso dá mais peso aos exemplos da classe minoritária durante o treinamento.
 

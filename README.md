@@ -233,7 +233,7 @@ Ao final da simulação, o motor calcula o fator de dispersão observado $\phi =
 
 O ciclo de vida de uma consulta é modelado como cadeia de Markov absorvente com 7 estados, implementada em [`markov_engine.dart`](https://github.com/allanfs1/Vitta_Care_flutter/blob/main/lib/features/projecao_12m/markov_engine.dart):
 
-$$\mathcal{S} = \underbrace{\{\texttt{agendado},\, \texttt{aguardando\_confirmacao},\, \texttt{confirmado}\}}_{\text{transitórios}} \cup \underbrace{\{\texttt{compareceu},\, \texttt{faltou},\, \texttt{cancelado},\, \texttt{reagendado}\}}_{\text{absorventes}}$$
+$$\mathcal{S} = \underbrace{\{\texttt{agendado},\, \texttt{aguardandoConfirmacao},\, \texttt{confirmado}\}}_{\text{transitórios}} \cup \underbrace{\{\texttt{compareceu},\, \texttt{faltou},\, \texttt{cancelado},\, \texttt{reagendado}\}}_{\text{absorventes}}$$
 
 > **Reagendado é estado próprio**, não cancelamento. Reagendar preserva o paciente no sistema **e** devolve a vaga; cancelar perde as duas coisas. Colapsar os dois superestima a perda e apaga exatamente o desfecho que a intervenção mais tenta produzir.
 
